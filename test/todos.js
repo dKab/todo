@@ -8,10 +8,8 @@
  * you are testing appended by an extra .spec extension.
  */
 
-define([
-        '../scripts/todos'
-    ],
-    function (Todos) {
+define(
+    function () {
         describe('basic tests', function() {
             before(function() {
                 this.targetElementId = 'test-container';

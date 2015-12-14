@@ -6,7 +6,7 @@ define(['mediator'], function (mediator) {
     var storage = {},
         ls = window.localStorage;
 
-    mediator.subscribe()
+    //mediator.subscribe()
 
     storage.getAll = function() {
         var json = ls.getItem('todos');

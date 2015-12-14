@@ -45,7 +45,7 @@ define(
 
 
         Todos.prototype.render = function() {
-            for (var i = 0;  i < todos.length; i++) {
+            for (var i = 0;  i < [].length; i++) { //TODO change [] to todos
                 var ul = this.elem.getElementsByTagName('ul')[0],
                     li = document.createElement('li'),
                     label = document.createElement('label'),

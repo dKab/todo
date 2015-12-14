@@ -3,7 +3,7 @@
  */
 // List of all test dependencies
 require([
-    'test/todos'
+    'todos'
 ], function() {
     if (window.mochaPhantomJS) {
         mochaPhantomJS.run();
