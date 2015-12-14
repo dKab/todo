@@ -1,0 +1,8 @@
+#todos-app {
+    max-width: 415px;
+    margin: 20px auto;
+    padding: 10px;
+}
+#todos ul {
+    list-style: none;
+}
