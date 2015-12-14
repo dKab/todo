@@ -10,6 +10,7 @@ require.config({
         "material-design-lite": "../bower_components/material-design-lite/material.min",
         requirejs: "../bower_components/requirejs/require"
     },
+    baseUrl: 'scripts/',
     packages: []
 });
 

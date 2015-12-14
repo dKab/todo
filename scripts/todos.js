@@ -11,7 +11,7 @@ define(
         function Todos(id) {
             this.elem = document.getElementById(id);
             this.elem.addEventListener('change', this.onCheck.bind(this));
-            mediator.subscribe('todosAvaiable', );
+           // mediator.subscribe('todosAvaiable', );
         }
 
         Todos.prototype.onCheck = function(e) {
