@@ -15,4 +15,21 @@ To run test in a normal browser just go to http://localhost:8080/test/
 
 **Note that the server should be running in both cases**
 
+**Sidenote**: To be able to unit test methods that interact with private variables inside closures (
+e.g. Method `onCheck` in `app/todos.js` writes in private module state variable `todos`) I used technique described by
+Philip Walton here: http://philipwalton.com/articles/how-to-unit-test-private-functions-in-javascript/ 
+
+
+
+#Deployment:
+
+To build optimized, ready (well not complitely ready - I basically don't do anything with my css, it's easy to add on any postcss later.
+Just register whatever other tasks you need to proccess css/js and add them to the `build` task array) for deployment application 
+just run `grunt build`. It will first strip all the testing code (see above) from source files and then process them with require.js
+optimization tool - r.js with handy `grunt-contrib-requirejs` plugin. 
+Note: if you use `grunt-contrib-requirejs` you don't need build.js - you can specify all necessary build options which you would put into `build.js`
+in `Gruntfile.js` under `requirejs.compile.options`.
+
+Deployment-ready code goes into /dist directory and you can access it in your broswer by going to http://localhost:8080/dist/
+
 Enjoy!

@@ -1,5 +1,4 @@
 'use strict';
-
 require.config({
     shim: {
         "material-design-lite": {

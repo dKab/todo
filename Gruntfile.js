@@ -20,10 +20,37 @@ module.exports = function(grunt) {
                     stdout: true
                 }
             }
+        },
+        requirejs: {
+            compile: {
+                options: {
+                    baseUrl: "app/",
+                    mainConfigFile: 'app/app.js',
+                    name: "app",
+                    paths: {
+                        requireLib: 'bower_components/requirejs/require'
+                    },
+                    out: "app/dist/app-built.js",
+                    include: ["requireLib"]
+                }
+            }
+        },
+        strip_code: {
+            options: {
+                start_comment: "test-code",
+                end_comment: "end-test-code",
+            },
+            your_target: {
+                // a list of files you want to strip code from
+                src: "app/*.js"
+            }
         }
+
     });
 
     grunt.loadNpmTasks('grunt-shell');
+    grunt.loadNpmTasks('grunt-contrib-requirejs');
+    grunt.loadNpmTasks('grunt-strip-code');
 
     grunt.registerTask('mocha', function() {
         if (grunt.option('reporter')) {
@@ -40,4 +67,9 @@ module.exports = function(grunt) {
 
         grunt.task.run('shell:mocha');
     });
+
+    grunt.registerTask('build', [
+        'strip_code',
+        'requirejs'
+    ]);
 };

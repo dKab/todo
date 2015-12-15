@@ -12,6 +12,9 @@ define(
             this.elem = document.getElementById(id);
             this.elem.addEventListener('change', this.onCheck.bind(this));
             mediator.subscribe('todosAvailable', {context: this, fn: this.onTodosAvailable});
+
+
+
         }
 
         Todos.prototype.onCheck = function(e) {
@@ -29,7 +32,11 @@ define(
                 });
                 if (foundAndChanged) {
                     mediator.publish('todosUpdate', todos);
-                    this.render();
+                    var self = this;
+                    setTimeout(function() {
+                        self.render();
+                    }, 300);
+                    return true;
                 }
             }
         };
@@ -60,7 +67,7 @@ define(
                 label.className = 'mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect';
                 label.setAttribute('for', inputId);
                 input.setAttribute('type', 'checkbox');
-                input.className = 'mdl-checkbox__input'
+                input.className = 'mdl-checkbox__input';
                 if (todos[i].checked === true) {
                     input.setAttribute('checked', 'checked');
                 }

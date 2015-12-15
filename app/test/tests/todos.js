@@ -6,19 +6,23 @@ define(
     function (sinon) {
         suite('todos module', function() {
             setup(function() {
-                this.targetElementId = 'test-container';
-                var body = document.body;
-                var container = this.container = document.createElement('div');
-                container.setAttribute('id', this.targetElementId);
-                body.appendChild(container);
+
             });
 
-            test('there should be a container', function() {
-                assert.equal(this.container.tagName, 'DIV');
+            suite('onCheck method', function() {
+                test('gets id of changed checkbox', function() {
+                    fake
+                    var fakeEvent = {
+                        target: {
+
+                        }
+                    };
+                    assert.equal(this.container.tagName, 'DIV');
+                });
             });
 
             teardown(function() {
-                document.body.removeChild(document.getElementById(this.targetElementId));
+
             });
 
 
