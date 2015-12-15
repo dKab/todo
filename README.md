@@ -30,6 +30,7 @@ optimization tool - r.js with handy `grunt-contrib-requirejs` plugin.
 Note: if you use `grunt-contrib-requirejs` you don't need build.js - you can specify all necessary build options which you would put into `build.js`
 in `Gruntfile.js` under `requirejs.compile.options`.
 
-Deployment-ready code goes into /dist directory and you can access it in your broswer by going to http://localhost:8080/dist/
+Deployment-ready code goes into app/dist directory and you can access it in your broswer by going to http://localhost:8080/dist/
+(assuming you started web-server in app directory)
 
 Enjoy!
