@@ -6,8 +6,8 @@ require.config({
         }
     },
     paths: {
-        "material-design-lite": "bower_components/material-design-lite/material.min",
-        requirejs: "bower_components/requirejs/require"
+        "material-design-lite": "../bower_components/material-design-lite/material.min",
+        requirejs: "../bower_components/requirejs/require"
     },
     baseUrl: '/',
     packages: []

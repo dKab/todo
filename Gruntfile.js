@@ -28,9 +28,9 @@ module.exports = function(grunt) {
                     mainConfigFile: 'app/app.js',
                     name: "app",
                     paths: {
-                        requireLib: 'bower_components/requirejs/require'
+                        requireLib: '../bower_components/requirejs/require'
                     },
-                    out: "app/dist/app-built.js",
+                    out: "dist/app-built.js",
                     include: ["requireLib"]
                 }
             }
@@ -38,7 +38,7 @@ module.exports = function(grunt) {
         strip_code: {
             options: {
                 start_comment: "test-code",
-                end_comment: "end-test-code",
+                end_comment: "end-test-code"
             },
             your_target: {
                 // a list of files you want to strip code from

@@ -12,9 +12,6 @@ define(
             this.elem = document.getElementById(id);
             this.elem.addEventListener('change', this.onCheck.bind(this));
             mediator.subscribe('todosAvailable', {context: this, fn: this.onTodosAvailable});
-
-
-
         }
 
         Todos.prototype.onCheck = function(e) {

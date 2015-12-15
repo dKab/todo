@@ -3,7 +3,7 @@ You should have nodejs module **http-server** installed globally. You can instal
 Also you need **grunt-cli** to be installed globally on your machine.
 After clonning the repository, install all dependencies with `npm install` and `bower install`.
 
-Run `http-server app` from project's root directory to start the server.
+Run `http-server` from project's root directory to start the server.
 After that you can go to http://localhost:8080 in your browser to see application in action.
 
 #Testing:
@@ -19,6 +19,8 @@ To run test in a normal browser just go to http://localhost:8080/test/
 e.g. Method `onCheck` in `app/todos.js` writes in private module state variable `todos`) I used technique described by
 Philip Walton here: http://philipwalton.com/articles/how-to-unit-test-private-functions-in-javascript/ 
 
+In  our `test` version of `requirejs.config` we need to specify paths relative to `test` dir for all modules that we test, or that may be
+dependencies of modules being tested.
 
 
 #Deployment:
@@ -30,7 +32,7 @@ optimization tool - r.js with handy `grunt-contrib-requirejs` plugin.
 Note: if you use `grunt-contrib-requirejs` you don't need build.js - you can specify all necessary build options which you would put into `build.js`
 in `Gruntfile.js` under `requirejs.compile.options`.
 
-Deployment-ready code goes into app/dist directory and you can access it in your broswer by going to http://localhost:8080/dist/
+Deployment-ready code goes into `dist` directory and you can access it in your broswer by going to http://localhost:8080/dist/
 (assuming you started web-server in app directory)
 
 Enjoy!
