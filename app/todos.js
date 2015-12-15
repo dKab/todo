@@ -68,8 +68,6 @@ define(
             }
         };
 
-
-
         return Todos;
 });
 
