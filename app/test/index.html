@@ -12,7 +12,8 @@
         paths: {
             "material-design-lite": "../bower_components/material-design-lite/material.min",
             "mocha": "../bower_components/mocha/mocha",
-            "chai": "../bower_components/chai/chai"
+            "chai": "../bower_components/chai/chai",
+            "sinon": "../bower_components/sinon/lib/sinon"
         },
         shim: {
             "mocha": {
@@ -20,6 +21,9 @@
             },
             "chai": {
                 exports: "chai"
+            },
+            "sinon": {
+                exports: "sinon"
             },
             "material-design-lite": {
                 exports: 'componentHandler'

@@ -9,8 +9,9 @@ define(['mediator'], function (mediator) {
     //mediator.subscribe()
 
     storage.getAll = function() {
-        var json = ls.getItem('todos');
-        return json ? JSON.parse(json) : [];
+        var json = ls.getItem('todos'),
+            todos = json ? JSON.parse(json) : [{id: 1423, text: 'fdsgfdgfdsgfdsg'}];
+        mediator.publish('todosAvailable', todos);
     };
 
     storage.write = function(todos) {

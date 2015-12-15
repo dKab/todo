@@ -15,15 +15,15 @@ require.config({
 });
 
 require(
-    ['mediator', 'todos', 'add-form'],
-    function (mediator, Todos, AddForm) {
-
+    ['mediator', 'storage', 'todos', 'add-form'],
+    function (mediator, storage, Todos, AddForm) {
         var todos = new Todos('todos');
+        storage.getAll();
         todos.render();
-
-
-
-        var addForm = new AddForm();
+        //
+        //
+        //
+        //var addForm = new AddForm();
 
     }
 );

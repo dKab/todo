@@ -2,7 +2,8 @@
  * Created by dmitriy on 14.12.15.
  */
 define(
-    function () {
+    ['sinon'],
+    function (sinon) {
         suite('todos module', function() {
             setup(function() {
                 this.targetElementId = 'test-container';
