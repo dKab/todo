@@ -6,3 +6,10 @@
 #todos ul {
     list-style: none;
 }
+#todos-app .mdl-button {
+    top: 12px;
+    vertical-align: top;
+}
+#todos-app .mdl-textfield {
+    margin-right: 10px;
+}
