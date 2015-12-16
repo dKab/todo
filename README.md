@@ -25,8 +25,7 @@ dependencies of modules being tested.
 
 #Deployment:
 
-To build optimized, ready for deployment application
-just run `grunt build`.
+To build optimized, ready for deployment application just run `grunt build`.
 Note: if you use `grunt-contrib-requirejs` you don't need build.js - you can specify all necessary build options which you would otherwise put into `build.js`
 in `Gruntfile.js` under `requirejs.compile.options`.
 
