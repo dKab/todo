@@ -49,35 +49,45 @@ module.exports = function (grunt) {
         uglify: {
             my_target: {
                 files: {
-                    'dist/app-built.min.js': ["dist/concatenated-temp.js"]
+                    'dist/scripts/app-built.min.js': ["dist/concatenated-temp.js"]
                 }
             }
         },
         clean: {
             dist: ['dist'],
-            temp: ["dist/concatenated-temp.js"],
-            afterbuild: ['.tmp']
+            temp: ["dist/concatenated-temp.js", '.tmp', "dist/index.temp.html", "dist/index.raw.html" ]
         },
         useminPrepare: {
             html: 'index.html',
-            options: {
-                dest: 'dist/'
-            }
         },
         usemin: {
-            html: 'dist/index.html'
+            html: 'dist/index.temp.html'
         },
         copy: {
             dist: { // in preparation for usemin
                 files: [
-                    {src: 'index.html', dest: 'dist/'}
+                    {src: 'index.html', dest: 'dist/index.temp.html'}
                 ]
             }
         },
         processhtml: {
             dist: {
                 files: {
-                    'dist/index1.html': ['dist/index.html']
+                    'dist/index.raw.html': ['dist/index.temp.html']
+                },
+                options: {
+                    commentMarker: 'process'
+                }
+            }
+        },
+        htmlmin: {
+            dist: {
+                options: {
+                    removeComments: true,
+                    collapseWhitespace: true
+                },
+                files: {
+                    'dist/index.html': 'dist/index.raw.html'
                 }
             }
         }
@@ -100,6 +110,8 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-processhtml');
 
+    grunt.loadNpmTasks('grunt-contrib-htmlmin');
+
     grunt.registerTask('mocha', function () {
         if (grunt.option('reporter')) {
             grunt.config('mocha.reporter', grunt.option('reporter'));
@@ -120,14 +132,14 @@ module.exports = function (grunt) {
         'clean:dist', // removing everything from dist folder
         'requirejs', // assembling amd modules in one file and placing it in dist folder
         'strip_code', // stripping test code from the file generated in previous task
-        'uglify',    // minifying the file creating minified version
-        'clean:temp', //removing non-minified file
+        'uglify',    // minifying the concatenated js file
         'useminPrepare', //parsing index.html file and generating configs for concat and cssmin tasks
         'copy:dist', //copying index.html into dist/ folder
         'concat:generated', //concatenating css files
         'cssmin:generated', //minifying css files
-        'usemin', //replacing scripts and styles in dist/index.html to optimized minified versions
-        'processhtml',
-        'clean:afterbuild'
+        'usemin', //replacing  styles in dist/index.html to optimized concatenated and minified versions
+        'processhtml', // replacing requirejs script tag with optimized
+        "htmlmin", //minifying html
+        'clean:temp' //remove temporary files
     ]);
 };

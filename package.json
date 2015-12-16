@@ -16,6 +16,7 @@
     "grunt-usemin": "^3.1.1",
     "mocha-phantomjs": "^3.6.0",
     "phantomjs": "1.9.7-15",
-    "requirejs": "^2.1.8"
+    "requirejs": "^2.1.8",
+    "grunt-contrib-htmlmin": "~0.6.0"
   }
 }
