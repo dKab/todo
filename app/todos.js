@@ -8,15 +8,14 @@ define(
 
         var todos;
 
+        /*test-code*/
+        window.testing._todos = todos;
+        /*end-test-code*/
+
         function Todos(id) {
             this.elem = document.getElementById(id);
             this.elem.addEventListener('change', this.onCheck.bind(this));
             mediator.subscribe('todosAvailable', {context: this, fn: this.onTodosAvailable});
-
-            /*test-code*/
-            console.log('testing');
-            /*end-test-code*/
-
         }
 
         Todos.prototype.onCheck = function(e) {
