@@ -38,7 +38,6 @@ define(
                     var ul = this.elem.getElementsByTagName('ul')[0];
                     ul.appendChild(target.parentNode);
                     target.disabled = true;
-                    return true;
                 }
             }
         };
