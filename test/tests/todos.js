@@ -71,6 +71,9 @@ define(
                 assert.isFalse(_todos[0].checked);
                 todos.onCheck(fakeEvent);
                 assert.isTrue(_todos[0].checked);
+                fakeCheckbox.removeAttribute('checked');
+                todos.onCheck(fakeEvent);
+                assert.isFalse(_todos[0].checked);
             });
 
             test('onCheck method publishes to todosUpdate channel', function() {
@@ -86,7 +89,6 @@ define(
             });
 
             test('checkbox becomes disabled after it\'s been checked', function() {
-
                 assert.isFalse(fakeCheckbox.disabled);
                 todos.onCheck(fakeEvent);
                 assert.isTrue(fakeCheckbox.disabled);
