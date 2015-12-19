@@ -3,19 +3,21 @@
  */
 'use strict';
 define(
-    ['material-design-lite', 'mediator'],
-    function (componentHandler, mediator) {
+    ['material-design-lite'],
+    function (componentHandler) {
 
-        var todos;
+        var todos = [];
 
         /*test-code*/
+        window.testing = window.testing || {};
         window.testing._todos = todos;
         /*end-test-code*/
 
-        function Todos(id) {
+        function Todos(id, mediator) {
             this.elem = document.getElementById(id);
             this.elem.addEventListener('change', this.onCheck.bind(this));
-            mediator.subscribe('todosAvailable', {context: this, fn: this.onTodosAvailable});
+            this.mediator = mediator;
+            this.mediator.subscribe('todosAvailable', {context: this, fn: this.onTodosAvailable});
         }
 
         Todos.prototype.onCheck = function(e) {
@@ -32,11 +34,10 @@ define(
                     }
                 });
                 if (foundAndChanged) {
-                    mediator.publish('todosUpdate', todos);
-                    var self = this;
-                    setTimeout(function() {
-                        self.render();
-                    }, 300);
+                    this.mediator.publish('todosUpdate', todos);
+                    var ul = this.elem.getElementsByTagName('ul')[0];
+                    ul.appendChild(target.parentNode);
+                    target.disabled = true;
                     return true;
                 }
             }
@@ -51,7 +52,8 @@ define(
         };
 
         Todos.prototype.onTodosAvailable = function(array) {
-            todos = array;
+            todos.length = 0;
+            todos = [].prototype.push.apply(todos, array);
         };
 
         Todos.prototype.render = function() {

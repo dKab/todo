@@ -6,6 +6,9 @@ define(['mocha', 'chai'], function (mocha, chai) {
 
     mocha.setup('tdd'); //mode
     window.assert = chai.assert;
+    /*test-code*/
+    window.testing = {};
+    /*end-test-code*/
 
     return mocha;
 });
