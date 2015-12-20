@@ -20,6 +20,16 @@ define(
             setup(function() {
                 var containerBlock = document.createElement('div');
                 document.body.appendChild(containerBlock);
+
+                var countBlock = document.createElement('div');
+                countBlock.setAttribute('id', 'count');
+                var activeCount = document.createElement('span');
+                activeCount.setAttribute('id', 'active-count');
+                var archiveCount = document.createElement('span');
+                archiveCount.setAttribute('id', 'archive-count');
+                countBlock.appendChild(activeCount);
+                countBlock.appendChild(archiveCount);
+                containerBlock.appendChild(countBlock);
                 containerBlock.setAttribute('id', 'todos');
                 ul = document.createElement('ul');
                 containerBlock.appendChild(ul);
@@ -32,6 +42,8 @@ define(
                 ul.appendChild(li);
                 disabled = document.createElement('input');
                 disabled.setAttribute('type', 'checkbox');
+                disabled.setAttribute('checked', 'checked');
+                disabled.setAttribute('id', 'checkbox_321');
                 disabled.disabled = true;
                 var liForDisabled = document.createElement('li');
                 liForDisabled.appendChild(disabled);
@@ -170,9 +182,62 @@ define(
                 todos.remove(document.getElementById(liId));
                 assert.equal(activeCountElem.innerHTML, '0');
                 assert.equal(archiveCountElem.innerHTML, '1');
+                assert.equal(ul.childNodes.length, 1);
+                assert.equal(ul.lastChild.getElementsByTagName('input')[0].id, 'checkbox_321');
                 todos.remove(ul.lastChild);
                 assert.equal(archiveCountElem.innerHTML, '0');
             });
+
+            test('findObj private function', function() {
+                var findObj = window.testing._findObj;
+                var arr = [
+                    {
+                        id: 'abgs'
+                    },
+                    {
+                        id: 42
+                    },
+                    {
+                        id: 1111
+                    },
+                    {
+                        id: 456
+                    }
+                ];
+
+                assert.equal(findObj(arr, 42).index, 1);
+                assert.equal(findObj(arr, 42).object.id, 42);
+                assert.equal(findObj(arr, 1111).index, 2);
+                assert.equal(findObj(arr, 'abgs').index, 0);
+                assert.equal(findObj(arr, 456).index, 3);
+                assert.isFalse(findObj(arr, 404));
+            });
+
+            test('onClick handler calls remove with closest parent li if target has `delete` inside it ', function() {
+                var deleteControl = document.createElement('span'),
+                    invalidDeleteControl = document.createElement('span');
+                deleteControl.innerHTML = 'delete';
+                invalidDeleteControl.innerHTML = 'some text';
+                var li = document.getElementById(liId);
+                li.appendChild(deleteControl);
+                li.appendChild(invalidDeleteControl);
+                var clickOnDelete  = {
+                    target: deleteControl
+                };
+                var clickSomewhereElse = {
+                    target: invalidDeleteControl
+                };
+                var spi = sinon.spy();
+                todos.remove = spi;
+                todos.onClick(clickOnDelete);
+                assert.isTrue(spi.calledWith(li));
+                assert.isTrue(spi.calledOnce);
+                todos.onClick(clickSomewhereElse);
+                assert.isTrue(spi.calledOnce); //nothing happened
+                todos.onClick(clickOnDelete);
+                assert.isTrue(spi.calledTwice);
+            });
+
 
         });
     });
