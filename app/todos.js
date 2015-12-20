@@ -24,9 +24,11 @@ define(
             var target = e.target;
             if (target.getAttribute('type') === 'checkbox') {
                 var idAttr = target.getAttribute('id'),
-                    id = idAttr.substr(9),
-                    foundAndChanged = todos.some(function(item) {
+                    id = idAttr.substr(9), ind, wanted,
+                    foundAndChanged = todos.some(function(item, index) {
+                        ind = index;
                     if ( item.id == id ) {
+                        wanted = item;
                         item.checked = target.checked;
                         return true;
                     } else {
@@ -34,6 +36,8 @@ define(
                     }
                 });
                 if (foundAndChanged) {
+                    todos.splice(ind, 1);
+                    todos.push(wanted);
                     this.mediator.publish('todosUpdate', todos);
                     var ul = this.elem.getElementsByTagName('ul')[0];
                     ul.appendChild(target.parentNode);
@@ -52,18 +56,18 @@ define(
 
         Todos.prototype.onTodosAvailable = function(array) {
             todos.length = 0;
-            todos = [].prototype.push.apply(todos, array);
+            Array.prototype.push.apply(todos, array);
         };
 
         Todos.prototype.render = function() {
             var ul = this.elem.getElementsByTagName('ul')[0],
-                li = document.createElement('li'),
-                label = document.createElement('label'),
-                input = document.createElement('input'),
-                span = document.createElement('span'),
-                labelText, inputId;
+                labelText, inputId, li, label, input, span;
                 ul.innerHTML = '';
             for (var i = 0;  i < todos.length; i++) {
+                li = document.createElement('li'),
+                    label = document.createElement('label'),
+                    input = document.createElement('input'),
+                    span = document.createElement('span'),
                 labelText = document.createTextNode(todos[i].text);
                 inputId = 'checkbox_' + todos[i].id;
                 label.className = 'mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect';
@@ -72,6 +76,7 @@ define(
                 input.className = 'mdl-checkbox__input';
                 if (todos[i].checked === true) {
                     input.setAttribute('checked', 'checked');
+                    input.disabled = true;
                 }
                 input.setAttribute('id', inputId);
                 span.className = 'mdl-checkbox__label';
