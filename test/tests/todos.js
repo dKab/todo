@@ -32,7 +32,10 @@ define(
                 containerBlock.appendChild(countBlock);
                 containerBlock.setAttribute('id', 'todos');
                 ul = document.createElement('ul');
-                containerBlock.appendChild(ul);
+                var itemsBlock = document.createElement('div');
+                itemsBlock.setAttribute('id', 'items');
+                itemsBlock.appendChild(ul);
+                containerBlock.appendChild(itemsBlock);
                 fakeCheckbox = document.createElement('input');
                 fakeCheckbox.setAttribute('type', 'checkbox');
                 fakeCheckbox.setAttribute('id', 'checkbox_123');
@@ -135,18 +138,23 @@ define(
                 assert.equal(_todos.pop().id, 132);
             });
 
-            test('render function renders all model items', function() {
-                todos.render();
-                assert.equal(ul.childNodes.length, 2);
-                _todos.push({id: 454});
-                todos.render();
-                assert.equal(ul.childNodes.length, 3);
+            test('render function renders all model items', function(done) {
+                todos.elem.querySelector('#items').innerHTML = '';
+                todos.render(function() {
+                    var list = todos.elem.querySelector('ul');
+                    try {
+                        assert.equal(list.children.length, _todos.length);
+                        done();
+                    } catch (err) {
+                        done(err);
+                    }
+                });
             });
 
             test('render function assigns id correctly', function() {
                 todos.render();
-                assert.equal(ul.firstChild.getElementsByTagName('input')[0].id, 'checkbox_123');
-                assert.equal(ul.lastChild.getElementsByTagName('input')[0].id, 'checkbox_321');
+                assert.equal(todos.elem.querySelector('ul').firstChild.querySelector('input').id, 'checkbox_123');
+                assert.equal(todos.elem.querySelector('ul').lastChild.querySelector('input').id, 'checkbox_321');
             });
 
             test('render function renders checked inputs as disabled', function() {
@@ -183,7 +191,7 @@ define(
                 assert.equal(activeCountElem.innerHTML, '0');
                 assert.equal(archiveCountElem.innerHTML, '1');
                 assert.equal(ul.childNodes.length, 1);
-                assert.equal(ul.lastChild.getElementsByTagName('input')[0].id, 'checkbox_321');
+                assert.equal(ul.lastChild.querySelector('input').id, 'checkbox_321');
                 todos.remove(ul.lastChild);
                 assert.equal(archiveCountElem.innerHTML, '0');
             });

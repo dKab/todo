@@ -3,11 +3,9 @@
  */
 'use strict';
 define(
-    ['material-design-lite'],
-    function (componentHandler) {
-
+    ['material-design-lite', 'util', 'lodash/collection/find', 'lodash/string/template'],
+    function (componentHandler, util, find, compile) {
         var todos = [];
-
         /*test-code*/
         window.testing = window.testing || {};
         window.testing._todos = todos;
@@ -97,38 +95,15 @@ define(
             Array.prototype.push.apply(todos, array);
         };
 
-        Todos.prototype.render = function() {
-            var ul = this.elem.getElementsByTagName('ul')[0],
-                labelText, inputId, li, label, input, span;
-                ul.innerHTML = '';
-            for (var i = 0;  i < todos.length; i++) {
-                li = document.createElement('li'),
-                    label = document.createElement('label'),
-                    input = document.createElement('input'),
-                    span = document.createElement('span'),
-                labelText = document.createTextNode(todos[i].text);
-                inputId = 'checkbox_' + todos[i].id;
-                label.className = 'mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect';
-                label.setAttribute('for', inputId);
-                input.setAttribute('type', 'checkbox');
-                input.className = 'mdl-checkbox__input';
-                if (todos[i].checked === true) {
-                    input.setAttribute('checked', 'checked');
-                    input.disabled = true;
-                }
-                input.setAttribute('id', inputId);
-                span.className = 'mdl-checkbox__label';
-                span.appendChild(labelText);
-                label.appendChild(input);
-                label.appendChild(span);
-                componentHandler.upgradeElement(label);
-                li.appendChild(label);
-                var deleteIcon = document.createElement('i');
-                deleteIcon.className = 'material-icons';
-                deleteIcon.innerHTML = 'delete';
-                li.appendChild(deleteIcon);
-                ul.appendChild(li);
-            }
+        Todos.prototype.render = function(callback) {
+            util.loadTemplate('todos.html')
+                .then(function(xhr, templateString) {
+                    var compiled = compile(templateString, {variable: 'data'});
+                    document.getElementById('items').innerHTML = compiled({ todos: todos});
+                    if (callback) {
+                        callback();
+                    }
+                });
         };
 
         return Todos;

@@ -1,0 +1,10 @@
+<ul>
+    <% for (var i=0; i < data.todos.length; i++) { %>
+    <li>
+        <label>
+            <input type="checkbox" id="checkbox_<% data.todos[i].id %>">
+            <%- data.todos[i].text %>
+        </label>
+    </li>
+    <% } %>
+</ul>

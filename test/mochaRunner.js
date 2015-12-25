@@ -4,14 +4,17 @@
 // List of all test dependencies
 require.config({
     paths: {
-        "material-design-lite": "../bower_components/material-design-lite/material.min",
+        "material-design-lite": "../bower_components/material-design-lite/material",
         "mocha": "../bower_components/mocha/mocha",
         "chai": "../bower_components/chai/chai",
         "sinon": "../bower_components/sinon/lib/sinon",
+        'es6-promise': '../bower_components/es6-promise/promise',
+        'qwest': '../bower_components/qwest/qwest',
         "mediator": "../app/mediator",
         "storage" : "../app/storage",
         "add-form": "../app/add-form",
-        "todos" : "../app/todos"
+        "todos" : "../app/todos",
+        "util": "../app/util"
     },
     shim: {
         "mocha": {
@@ -25,9 +28,15 @@ require.config({
         },
         "material-design-lite": {
             exports: 'componentHandler'
+        },
+        qwest: {
+            exports: 'qwest'
         }
     },
-    baseUrl: '/'
+    baseUrl: '/',
+    packages: [
+        { 'name': 'lodash', 'location': '../bower_components/lodash' }
+    ]
 });
 require([
     'test/mochaSetup', 'test/list_of_tests'
