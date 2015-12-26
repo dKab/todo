@@ -1,10 +1,15 @@
+<div id="count">
+    <span id="count__active"><%= data.todos.filter(function(val) {return !val.checked; }).length %></span> активных |
+    <span id="count__archive"><%= data.todos.filter(function(val) { return val.checked; }).length %></span> в архиве
+</div>
 <ul>
     <% for (var i=0; i < data.todos.length; i++) { %>
-    <li>
+    <li id="todo_<%= data.todos[i].id %>">
         <label>
-            <input type="checkbox" id="checkbox_<% data.todos[i].id %>">
+            <input type="checkbox">
             <%- data.todos[i].text %>
         </label>
+        <span class="todo__delete-btn"></span>
     </li>
     <% } %>
 </ul>

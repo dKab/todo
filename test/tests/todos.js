@@ -7,67 +7,32 @@ define(
 
         suite('todos module', function() {
 
-            var fakeCheckbox,
-                disabled, //disableCheckbox
-                _todos,
-                ul,
-                liId = 'test_oncheck_li',
-                fakeMediator,
+            var _todos, // private model collection
                 pubSpy, subSpy,
-                todos, //the instance of our Todos "class"
-                fakeEvent;
+                todos; //the instance of our Todos "class"
 
-            setup(function() {
-                var containerBlock = document.createElement('div');
-                document.body.appendChild(containerBlock);
+            setup(function(done) { //this runs before each test case
+                _todos =  window.testing._todos; // it's accessable only in testing environment
 
-                var countBlock = document.createElement('div');
-                countBlock.setAttribute('id', 'count');
-                var activeCount = document.createElement('span');
-                activeCount.setAttribute('id', 'active-count');
-                var archiveCount = document.createElement('span');
-                archiveCount.setAttribute('id', 'archive-count');
-                countBlock.appendChild(activeCount);
-                countBlock.appendChild(archiveCount);
-                containerBlock.appendChild(countBlock);
-                containerBlock.setAttribute('id', 'todos');
-                ul = document.createElement('ul');
-                var itemsBlock = document.createElement('div');
-                itemsBlock.setAttribute('id', 'items');
-                itemsBlock.appendChild(ul);
-                containerBlock.appendChild(itemsBlock);
-                fakeCheckbox = document.createElement('input');
-                fakeCheckbox.setAttribute('type', 'checkbox');
-                fakeCheckbox.setAttribute('id', 'checkbox_123');
-                var li = document.createElement('li');
-                li.appendChild(fakeCheckbox);
-                li.setAttribute('id', liId); //that way we can easily find the li later
-                ul.appendChild(li);
-                disabled = document.createElement('input');
-                disabled.setAttribute('type', 'checkbox');
-                disabled.setAttribute('checked', 'checked');
-                disabled.setAttribute('id', 'checkbox_321');
-                disabled.disabled = true;
-                var liForDisabled = document.createElement('li');
-                liForDisabled.appendChild(disabled);
-                ul.appendChild(liForDisabled);
-                _todos =  window.testing._todos;
                 _todos.length = 0;
                 _todos.push({id: 123, checked: false});
                 _todos.push( {id: 321, checked: true});
+
                 pubSpy = sinon.spy();
                 subSpy = sinon.spy();
-                fakeMediator = {
+                var fakeMediator = {
                     publish: pubSpy,
                     subscribe: subSpy
                 };
+
+                var containerBlock = document.createElement('div');
+                containerBlock.setAttribute('id', 'todos');
+                document.body.appendChild(containerBlock);
                 todos = new Todos('todos', fakeMediator);
-                fakeEvent = {
-                    target: fakeCheckbox
-                };
+                todos.render(done);
             });
 
-            teardown(function() {
+            teardown(function() { //this runs after each test case
                 document.body.removeChild(document.getElementById('todos'));
             });
 
@@ -76,42 +41,52 @@ define(
                 assert.equal(todos.elem.id, 'todos');
             });
 
-            test('constructor subscribes to todosAvailable channel', function() {
+
+            test('init method subscribes to todosAvailable channel', function() {
+                assert.isFalse(subSpy.called);
+                todos.init();
                 assert(subSpy.calledOnce);
                 assert(subSpy.calledWith('todosAvailable'));
                 assert.isFunction(subSpy.args[0][1].fn);
             });
 
-            test('onCheck method sets checked property of corresponding todo to true', function() {
-                fakeCheckbox.setAttribute('checked', "checked");
-                var model = _todos[0];
+            test('onCheck method changes model\'s checked property accordingly to the checkbox', function() {
+                var model = _todos[0],
+                    li = document.getElementById('todo_' + model.id),
+                    checkbox = li.querySelector('input[type=checkbox]');
                 assert.isFalse(model.checked);
-                todos.onCheck(fakeEvent);
+                checkbox.checked = true;
+                todos.onCheck({target: checkbox});
                 assert.isTrue(model.checked);
-                fakeCheckbox.removeAttribute('checked');
-                todos.onCheck(fakeEvent);
+                checkbox.checked = false;
+                todos.onCheck({target: checkbox});
                 assert.isFalse(model.checked);
             });
 
             test('onCheck method publishes to todosUpdate channel', function() {
                 assert.isFalse(pubSpy.called);
-                todos.onCheck(fakeEvent);
+                var checkbox = todos.elem.querySelector('input[type=checkbox]');
+                todos.onCheck({target: checkbox});
                 assert( (pubSpy.calledOnce && pubSpy.calledWith('todosUpdate', _todos)));
             });
 
             test('checked item goes to the end of the list', function() {
-                var model = _todos[0];
+                var model = _todos[0],
+                    li = document.getElementById('todo_' + model.id),
+                    checkbox = li.querySelector('input[type=checkbox]');
                 assert.notEqual(_todos[_todos.length-1], model, 'model isn\'t last item before we check it');
-                assert.notEqual(ul.lastChild, document.getElementById(liId));
-                todos.onCheck(fakeEvent);
-                assert.strictEqual(ul.lastChild, document.getElementById(liId));
+                assert.notEqual(todos.elem.querySelector('ul').lastChild, li);
+                todos.onCheck({target: checkbox});
+                assert.strictEqual(todos.elem.querySelector('ul').lastChild, li);
                 assert.strictEqual(_todos[_todos.length-1], model, 'model is last item in the array after we check it');
             });
 
             test('checkbox becomes disabled after it\'s been checked', function() {
-                assert.isFalse(fakeCheckbox.disabled);
-                todos.onCheck(fakeEvent);
-                assert.isTrue(fakeCheckbox.disabled);
+                var li = todos.elem.querySelector('li');
+                var checkbox = li.querySelector('input[type=checkbox]');
+                assert.isFalse(checkbox.disabled);
+                todos.onCheck({target: checkbox});
+                assert.isTrue(checkbox.disabled);
             });
 
             test('adds item to internal todos array', function() {
@@ -122,7 +97,7 @@ define(
                 assert.equal(_todos.pop().id, 42);
             });
 
-            test('fills the internal array with todos as soon as they are available', function() {
+            test('fills the internal array with todos', function() {
                 var array = [
                     {
                         id: 132
@@ -138,112 +113,51 @@ define(
                 assert.equal(_todos.pop().id, 132);
             });
 
-            test('render function renders all model items', function(done) {
-                todos.elem.querySelector('#items').innerHTML = '';
-                todos.render(function() {
-                    var list = todos.elem.querySelector('ul');
-                    try {
-                        assert.equal(list.children.length, _todos.length);
-                        done();
-                    } catch (err) {
-                        done(err);
-                    }
-                });
-            });
-
-            test('render function assigns id correctly', function() {
-                todos.render();
-                assert.equal(todos.elem.querySelector('ul').firstChild.querySelector('input').id, 'checkbox_123');
-                assert.equal(todos.elem.querySelector('ul').lastChild.querySelector('input').id, 'checkbox_321');
-            });
-
-            test('render function renders checked inputs as disabled', function() {
-                todos.render();
-                assert.isFalse(document.getElementById('checkbox_123').disabled);
-                assert.isTrue(document.getElementById('checkbox_321').disabled);
-            });
-
             test('remove method removes item from the dom', function() {
-                assert.isNotNull(document.getElementById(liId));
-                todos.remove(document.getElementById(liId));
-                assert.isNull(document.getElementById(liId));
+                var modelId = _todos[0].id,
+                    li = document.getElementById('todo_' + modelId);
+                assert.isNotNull(li);
+                todos.remove(modelId);
+                assert.isNull(document.getElementById('todo_' + modelId));
             });
 
-            test('removes item from the internal array', function() {
-                assert.isTrue(_todos.some(function(item) { return item.id == 123; })); //model is there
-                todos.remove(document.getElementById(liId));
-                assert.isFalse(_todos.some(function(item) { return item.id == 123; })); //model is no longer there
+            test('remove method removes model from internal array', function() {
+                var modelId = _todos[0].id;
+                todos.remove(modelId);
+                assert.isFalse(_todos.some(function(item) { return item.id == modelId; })); //model is no longer there
             });
-
 
             test('publishes to todosUpdate channel after removing item', function() {
                 assert.isFalse(pubSpy.called);
-                todos.remove(document.getElementById(liId));
+                todos.remove(_todos[0].id);
                 assert.isTrue(pubSpy.calledWith('todosUpdate', _todos));
             });
 
             test('updates counters block', function() {
-                var activeCountElem = document.getElementById('active-count'),
-                    archiveCountElem = document.getElementById('archive-count');
+                var activeCountElem = document.getElementById('count__active'),
+                    archiveCountElem = document.getElementById('count__archive');
                 activeCountElem.innerHTML = '1';
                 archiveCountElem.innerHTML = '1';
-                todos.remove(document.getElementById(liId));
+                todos.remove(_todos[0].id);
                 assert.equal(activeCountElem.innerHTML, '0');
                 assert.equal(archiveCountElem.innerHTML, '1');
-                assert.equal(ul.childNodes.length, 1);
-                assert.equal(ul.lastChild.querySelector('input').id, 'checkbox_321');
-                todos.remove(ul.lastChild);
+                todos.remove(_todos[0].id);
                 assert.equal(archiveCountElem.innerHTML, '0');
             });
 
-            test('findObj private function', function() {
-                var findObj = window.testing._findObj;
-                var arr = [
-                    {
-                        id: 'abgs'
-                    },
-                    {
-                        id: 42
-                    },
-                    {
-                        id: 1111
-                    },
-                    {
-                        id: 456
-                    }
-                ];
-
-                assert.equal(findObj(arr, 42).index, 1);
-                assert.equal(findObj(arr, 42).object.id, 42);
-                assert.equal(findObj(arr, 1111).index, 2);
-                assert.equal(findObj(arr, 'abgs').index, 0);
-                assert.equal(findObj(arr, 456).index, 3);
-                assert.isFalse(findObj(arr, 404));
-            });
-
-            test('onClick handler calls remove with closest parent li if target has `delete` inside it ', function() {
-                var deleteControl = document.createElement('span'),
-                    invalidDeleteControl = document.createElement('span');
-                deleteControl.innerHTML = 'delete';
-                invalidDeleteControl.innerHTML = 'some text';
-                var li = document.getElementById(liId);
-                li.appendChild(deleteControl);
-                li.appendChild(invalidDeleteControl);
+            test('onClick handler calls remove with model\'s id if target is delete button', function() {
+                var li = todos.elem.querySelector('li'),
+                    modelId = li.id.substr(5);
                 var clickOnDelete  = {
-                    target: deleteControl
-                };
-                var clickSomewhereElse = {
-                    target: invalidDeleteControl
+                    target: li.querySelector('.todo__delete-btn')
                 };
                 var spi = sinon.spy();
                 todos.remove = spi;
+
+                assert.isFalse(spi.called);
                 todos.onClick(clickOnDelete);
-                assert.isTrue(spi.calledWith(li));
+                assert.isTrue(spi.calledWith(modelId));
                 assert.isTrue(spi.calledOnce);
-                todos.onClick(clickSomewhereElse);
-                assert.isTrue(spi.calledOnce); //nothing happened
-                todos.onClick(clickOnDelete);
-                assert.isTrue(spi.calledTwice);
             });
 
 

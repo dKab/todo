@@ -4,7 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TODO List</title>
-    <!-- process:js scripts/app-built.min.js -->
+    <!-- process:remove -->
+    <script src="bower_components/Element.closest/closest.js"></script>
+    <!-- /process -->
+    <!-- process:js scripts/built.min.js -->
     <script src="bower_components/requirejs/require.js" data-main="app/app"></script>
     <!-- /process -->
     <!-- build:css styles/vendor.min.css -->
@@ -29,10 +32,6 @@
                 </button>
             </form>
             <div id="todos">
-                <div id="count">
-                    <span id="active-count"></span> активных | <span id="archive-count"></span> в архиве
-                </div>
-                <div id="items"></div>
             </div>
             <form id="search-form">
                 <div class="mdl-textfield mdl-js-textfield">

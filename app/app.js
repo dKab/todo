@@ -24,6 +24,7 @@ require(
     ['mediator', 'storage', 'todos', 'add-form'],
     function (mediator, storage, Todos, AddForm) {
         var todos = new Todos('todos', mediator);
+        todos.init();
         storage.getAll();
         todos.render();
         //

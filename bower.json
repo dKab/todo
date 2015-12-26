@@ -19,7 +19,8 @@
     "material-design-lite": "~1.0.6",
     "requirejs": "~2.1.22",
     "es6-promise": "~3.0.2",
-    "lodash": "3.10.1-amd"
+    "lodash": "3.10.1-amd",
+    "Element.closest": "closest#~1.0.3"
   },
   "devDependencies": {
     "sinon": "1.17.2",

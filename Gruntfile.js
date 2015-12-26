@@ -24,38 +24,46 @@ module.exports = function (grunt) {
         requirejs: {
             compile: {
                 options: {
-                    optimize: "none",
-                    baseUrl: "app/",
+                    optimize: 'none',
+                    baseUrl: 'app/',
                     mainConfigFile: 'app/app.js',
-                    name: "app",
+                    name: 'app',
                     paths: {
                         requireLib: '../bower_components/requirejs/require'
                     },
-                    out: "dist/concatenated-temp.js",
-                    include: ["requireLib"]
+                    out: 'dist/concatenated-temp.js',
+                    include: ['requireLib']
                 }
             }
         },
         strip_code: {
             options: {
-                start_comment: "test-code",
-                end_comment: "end-test-code"
+                start_comment: 'test-code',
+                end_comment: 'end-test-code'
             },
             your_target: {
                 // a list of files you want to strip code from
-                src: "dist/concatenated-temp.js"
+                src: 'dist/concatenated-temp.js'
             }
         },
         uglify: {
             my_target: {
                 files: {
-                    'dist/scripts/app-built.min.js': ["dist/concatenated-temp.js"]
+                    'dist/scripts/app-built.min.js': ['dist/concatenated-temp.js'],
+                    'dist/polyfill.min.js': ['bower_components/Element.closest/closest.js']
                 }
             }
         },
         clean: {
             dist: ['dist'],
-            temp: ["dist/concatenated-temp.js", '.tmp', "dist/index.temp.html", "dist/index.raw.html" ]
+            temp: [
+                'dist/concatenated-temp.js',
+                '.tmp', 
+                'dist/index.temp.html', 
+                'dist/index.raw.html', 
+                'dist/polyfill.min.js' ,
+                'dist/scripts/app-built.min.js'
+            ]
         },
         useminPrepare: {
             html: 'index.html',
@@ -68,6 +76,12 @@ module.exports = function (grunt) {
                 files: [
                     {src: 'index.html', dest: 'dist/index.temp.html'}
                 ]
+            }
+        },
+        concat: {
+            polyfills: {
+                src: ['dist/polyfill.min.js', 'dist/scripts/app-built.min.js'],
+                dest: 'dist/scripts/built.min.js'
             }
         },
         processhtml: {
@@ -133,13 +147,14 @@ module.exports = function (grunt) {
         'requirejs', // assembling amd modules in one file and placing it in dist folder
         'strip_code', // stripping test code from the file generated in previous task
         'uglify',    // minifying the concatenated js file
+        'concat:polyfills',
         'useminPrepare', //parsing index.html file and generating configs for concat and cssmin tasks
         'copy:dist', //copying index.html into dist/ folder
         'concat:generated', //concatenating css files
         'cssmin:generated', //minifying css files
         'usemin', //replacing  styles in dist/index.html to optimized concatenated and minified versions
         'processhtml', // replacing requirejs script tag with optimized
-        "htmlmin", //minifying html
+        'htmlmin', //minifying html
         'clean:temp' //remove temporary files
     ]);
 };
