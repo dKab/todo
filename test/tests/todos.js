@@ -63,6 +63,17 @@ define(
                 assert.isFalse(model.checked);
             });
 
+            test('oncheck method updates counters', function() {
+                var checkbox = todos.elem.querySelector('input[type=checkbox]:not(:checked)');
+
+                assert.equal(document.getElementById('count__active').innerHTML, 1);
+                assert.equal(document.getElementById('count__archive').innerHTML, 1);
+                checkbox.checked = true;
+                todos.onCheck({target: checkbox});
+                assert.equal(document.getElementById('count__active').innerHTML, 0);
+                assert.equal(document.getElementById('count__archive').innerHTML, 2);
+            });
+
             test('onCheck method publishes to todosUpdate channel', function() {
                 assert.isFalse(pubSpy.called);
                 var checkbox = todos.elem.querySelector('input[type=checkbox]');

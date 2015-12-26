@@ -16,6 +16,14 @@ define(
             this.mediator = mediator;
         }
 
+
+        function updateCounter(which, how) {
+            var blockToUpdate = document.getElementById('count__' + which);
+            var currentCount = +blockToUpdate.innerHTML;
+            var newCount = (how < 0) ? Math.max(0, currentCount - 1) : currentCount + 1;
+            blockToUpdate.innerHTML = newCount;
+        }
+
         Todos.prototype.init = function() {
             this.elem.addEventListener('change', this.onCheck.bind(this));
             this.elem.addEventListener('click', this.onClick.bind(this));
@@ -46,6 +54,8 @@ define(
                     var ul = this.elem.querySelector('ul');
                     ul.appendChild(li);
                     target.disabled = true;
+                    updateCounter('archive', +1);
+                    updateCounter('active', -1);
                 }
             }
         };
@@ -59,10 +69,8 @@ define(
             var model = todos.splice(index, 1).pop();
             var li = document.getElementById('todo_' + id);
             li.parentNode.removeChild(li);
-            var countBlockToUpdateId = model.checked ? 'count__archive' : 'count__active';
-            var countBlock = document.getElementById(countBlockToUpdateId);
-            var currentCount = parseInt(countBlock.innerHTML) || 0;
-            countBlock.innerHTML = Math.max(0, --currentCount);
+            var countToUpdate = model.checked ? 'archive' : 'active';
+            updateCounter(countToUpdate, -1);
             this.mediator.publish('todosUpdate', todos);
         };
 
@@ -85,4 +93,3 @@ define(
 
         return Todos;
 });
-
