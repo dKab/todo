@@ -14,4 +14,9 @@
     margin-right: 10px;
 }
 
+.todo__item--checked .todo__text {
+    text-decoration: line-through;
+    color: gray;
+}
+
 /* TODO hide delete icons, vertical align label text */

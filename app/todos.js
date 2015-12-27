@@ -52,7 +52,7 @@ define(
 
         Todos.prototype.onClick = function(event) {
             var target = event.target;
-            if (~target.className.indexOf('todo__delete-js-btn')) {
+            if (~target.className.indexOf('todo__delete-btn-js')) {
                 var id = target.closest('li').id.substr(5);
                 this.remove(id);
             } else if (~target.className.indexOf('todo__text-js')) {
@@ -73,6 +73,9 @@ define(
                 if (~index) {
                     var model = todos.splice(index, 1).pop();
                     model.checked = target.checked;
+                    if (model.checked) {
+                        li.clasName += ' todo__item--checked';
+                    }
                     todos.push(model);
                     this.mediator.publish('todosUpdate', todos);
                     var ul = this.elem.querySelector('ul');

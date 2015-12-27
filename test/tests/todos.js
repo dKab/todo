@@ -162,7 +162,7 @@ define(
                 var li = todos.elem.querySelector('li'),
                     modelId = li.id.substr(5);
                 var clickOnDelete  = {
-                    target: li.querySelector('.todo__delete-js-btn')
+                    target: li.querySelector('.todo__delete-btn-js')
                 };
                 var spi = sinon.spy();
                 todos.remove = spi;

@@ -66,7 +66,7 @@ module.exports = function (grunt) {
             ]
         },
         useminPrepare: {
-            html: 'index.html',
+            html: 'index.html'
         },
         usemin: {
             html: 'dist/index.temp.html'
@@ -147,7 +147,7 @@ module.exports = function (grunt) {
         'requirejs', // assembling amd modules in one file and placing it in dist folder
         'strip_code', // stripping test code from the file generated in previous task
         'uglify',    // minifying the concatenated js file
-        'concat:polyfills',
+        'concat:polyfills', //concat minifyied polyfill file with all the application js code
         'useminPrepare', //parsing index.html file and generating configs for concat and cssmin tasks
         'copy:dist', //copying index.html into dist/ folder
         'concat:generated', //concatenating css files

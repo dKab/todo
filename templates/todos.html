@@ -4,14 +4,20 @@
 </div>
 <ul>
     <% for (var i=0; i < data.todos.length; i++) { %>
-    <li id="todo_<%= data.todos[i].id %>">
-            <input type="checkbox" <% if (data.todos[i].checked) { %>
-                disabled
-                checked
-            <% } %>
-            >
-            <span class="todo__text-js"><%- data.todos[i].text %></span>
-        <i class="todo__delete-js-btn material-icons">delete</i>
+    <li id="todo_<%= data.todos[i].id %>"
+    <% if(data.todos[i].checked) { %>
+    class="todo__item todo__item--checked"
+    <% } else { %>
+    class="todo__item"
+    <% } %>
+    >
+    <input type="checkbox" <% if (data.todos[i].checked) { %>
+    disabled
+    checked
+    <% } %>
+    >
+    <span class="todo__text todo__text-js"><%- data.todos[i].text %></span>
+    <i class="todo__delete-btn-js material-icons">delete</i>
     </li>
     <% } %>
 </ul>
