@@ -27,14 +27,13 @@ require(
         todos.init();
         var storage = new LongStorage(mediator, window.localStorage);
         storage.getAll('todos');
+        mediator.subscribe('todosUpdate', {context: storage, fn: function(array) {
+            this.write('todos', array);
+        }});
         todos.render();
         var addForm = new AddForm('add-form', mediator);
         addForm.init();
-        //
-        //
-        //
-        //var addForm = new AddForm();
-
     }
+    //TODO add load screen on xhr
 );
 

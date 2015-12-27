@@ -2,7 +2,7 @@
  * Created by Dmitry_Kabardinov on 12/14/2015.
  */
 'use strict';
-define(['mediator'], function (mediator) {
+define(function () {
 
     /**
      * @param mediator

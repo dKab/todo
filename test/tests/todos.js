@@ -2,8 +2,8 @@
  * Created by dmitriy on 14.12.15.
  */
 define(
-    ['sinon', 'todos'],
-    function (sinon, Todos) {
+    ['sinon', 'todos', 'lodash/collection/find'],
+    function (sinon, Todos, find) {
 
         suite('todos module', function() {
 
@@ -186,5 +186,21 @@ define(
                 assert.equal(_todos.length, count + 1);
                 assert(todos.render.calledOnce);
             });
+
+            test('finishEditingText', function() {
+                var span = todos.elem.querySelector('.todo__text-js'),
+                    id = span.closest('li').id.substr(5),
+                    model = find(_todos, {id: +id});
+                var event = {
+                    target: span
+                };
+                var newText = 'new awesome text';
+                span.value = newText;
+                todos.finishEditingText(event);
+                assert.equal(model.text, newText);
+                assert(pubSpy.calledOnce);
+                assert(pubSpy.calledWith('todosUpdate', _todos));
+            });
+
         });
     });

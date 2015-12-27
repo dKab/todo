@@ -3,9 +3,8 @@
  */
 'use strict';
 define(
-    ['mediator', 'lodash/string/trim'],
-    function (mediator, trim) {
-
+    ['lodash/string/trim'],
+    function (trim) {
 
         function AddForm(id, mediator) {
             this.elem = document.getElementById(id);

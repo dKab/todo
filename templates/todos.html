@@ -5,14 +5,12 @@
 <ul>
     <% for (var i=0; i < data.todos.length; i++) { %>
     <li id="todo_<%= data.todos[i].id %>">
-        <label>
             <input type="checkbox" <% if (data.todos[i].checked) { %>
                 disabled
                 checked
             <% } %>
             >
             <span class="todo__text-js"><%- data.todos[i].text %></span>
-        </label>
         <i class="todo__delete-js-btn material-icons">delete</i>
     </li>
     <% } %>
