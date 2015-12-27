@@ -3,20 +3,40 @@
  */
 'use strict';
 define(['mediator'], function (mediator) {
-    var storage = {},
-        ls = window.localStorage;
 
-    //mediator.subscribe()
+    /**
+     * @param mediator
+     * @param storage - the storage can be any storage as long as it implements methods getItem(key) & setItem(key, val)
+     * @constructor
+     */
+    function Storage(mediator, storage) {
+        this.mediator = mediator;
+        this.storage = storage;
+    }
 
-    storage.getAll = function() {
-        var json = ls.getItem('todos'),
-            todos = json ? JSON.parse(json) : [{id: 1423, text: 'fdsgfdgfdsgfdsg'}];
-        mediator.publish('todosAvailable', todos);
+    Storage.prototype.getAll = function(name) {
+        var raw = this.storage.getItem(name),
+            val;
+            if (typeof raw === 'string') {
+                try {
+                    val = JSON.parse(raw);
+                } catch(err) {
+                    val = raw; //if it's not a valid json, than it's just a string
+                }
+            } else {
+                val = raw;
+            }
+        if (val) {
+            this.mediator.publish(name + 'Available', val);
+        }
     };
 
-    storage.write = function(todos) {
-        ls.setItem('todos', todos);
+    Storage.prototype.write = function(name, value) {
+        if (this.storage === window.localStorage) {
+            value = JSON.stringify(value);
+        }
+        this.storage.setItem(name, value);
     };
 
-    return storage;
+    return Storage;
 });

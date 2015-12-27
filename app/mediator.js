@@ -6,6 +6,11 @@ define(function () {
 
     var channels = {};
 
+    /*test-code*/
+    window.testing = window.testing || {};
+    window.testing._mediatorChannels = channels;
+    /*end-test-code*/
+
     function subscribe(channel, subscriber) {
         if (channels[channel]) {
             channels[channel].push(subscriber);
@@ -19,10 +24,9 @@ define(function () {
             subscribers = channels[channel],
             subscriber;
         if (typeof subscribers !== 'undefined') {
-            while (subscribers.length !== 0) {
-                subscriber = subscribers.shift();
-                    subscriber.fn.apply(subscriber.context, args);
-            }
+            subscribers.forEach(function(subscriber) {
+                subscriber.fn.apply(subscriber.context, args);
+            });
         }
     }
 

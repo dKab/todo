@@ -4,6 +4,8 @@
 'use strict';
 define(function () {
     return [
-        'test/tests/todos'
+        'test/tests/todos',
+        'test/tests/storage',
+        'test/tests/mediator'
     ];
 });

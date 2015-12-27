@@ -22,10 +22,11 @@ require.config({
 
 require(
     ['mediator', 'storage', 'todos', 'add-form'],
-    function (mediator, storage, Todos, AddForm) {
+    function (mediator, LongStorage, Todos, AddForm) {
         var todos = new Todos('todos', mediator);
         todos.init();
-        storage.getAll();
+        var storage = new LongStorage(mediator, window.localStorage);
+        storage.getAll('todos');
         todos.render();
         //
         //
