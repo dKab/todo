@@ -42,12 +42,14 @@ define(
             });
 
 
-            test('init method subscribes to todosAvailable channel', function() {
+            test('init method', function() {
                 assert.isFalse(subSpy.called);
                 todos.init();
-                assert(subSpy.calledOnce);
+                assert(subSpy.calledTwice);
                 assert(subSpy.calledWith('todosAvailable'));
                 assert.isFunction(subSpy.args[0][1].fn);
+                assert(subSpy.calledWith('newTodo'));
+                assert.isFunction(subSpy.args[1][1].fn);
             });
 
             test('onCheck method changes model\'s checked property accordingly to the checkbox', function() {
@@ -160,7 +162,7 @@ define(
                 var li = todos.elem.querySelector('li'),
                     modelId = li.id.substr(5);
                 var clickOnDelete  = {
-                    target: li.querySelector('.todo__delete-btn')
+                    target: li.querySelector('.todo__delete-js-btn')
                 };
                 var spi = sinon.spy();
                 todos.remove = spi;
@@ -171,6 +173,18 @@ define(
                 assert.isTrue(spi.calledOnce);
             });
 
-
+            test('addTodo method ', function() {
+                assert.isFalse(_todos.some(function(model) { return model.text === 'test todo'}));
+                assert.isFalse(pubSpy.called);
+                var count = _todos.length;
+                todos.render = sinon.spy();
+                todos.addTodo('test todo');
+                assert.isDefined(_todos[0].id);
+                assert.equal(_todos[0].text, 'test todo');
+                assert(pubSpy.called);
+                assert(pubSpy.calledWith('todosUpdate', _todos));
+                assert.equal(_todos.length, count + 1);
+                assert(todos.render.calledOnce);
+            });
         });
     });

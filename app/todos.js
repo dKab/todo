@@ -20,23 +20,22 @@ define(
         function updateCounter(which, how) {
             var blockToUpdate = document.getElementById('count__' + which);
             var currentCount = +blockToUpdate.innerHTML;
-            var newCount = (how < 0) ? Math.max(0, currentCount - 1) : currentCount + 1;
-            blockToUpdate.innerHTML = newCount;
+            blockToUpdate.innerHTML = (how < 0) ? Math.max(0, currentCount - 1) : currentCount + 1;
         }
 
         Todos.prototype.init = function() {
             this.elem.addEventListener('change', this.onCheck.bind(this));
             this.elem.addEventListener('click', this.onClick.bind(this));
             this.mediator.subscribe('todosAvailable', {context: this, fn: this.onTodosAvailable});
+            this.mediator.subscribe('newTodo', {context: this, fn: this.addTodo});
         };
 
         Todos.prototype.onClick = function(event) {
             var target = event.target;
-            if (target.className !== 'todo__delete-btn') {
-                return;
+            if (~target.className.indexOf('todo__delete-js-btn')) {
+                var id = target.closest('li').id.substr(5);
+                this.remove(id);
             }
-            var id = target.closest('li').id.substr(5);
-            this.remove(id);
         };
 
         Todos.prototype.onCheck = function(e) {
@@ -89,6 +88,16 @@ define(
                         callback();
                     }
                 });
+        };
+
+        Todos.prototype.addTodo = function(todo) {
+            var model = {
+                id: Date.now(),
+                text: todo
+            };
+            todos.unshift(model);
+            this.mediator.publish('todosUpdate', todos);
+            this.render();
         };
 
         return Todos;

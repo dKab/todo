@@ -28,6 +28,8 @@ require(
         var storage = new LongStorage(mediator, window.localStorage);
         storage.getAll('todos');
         todos.render();
+        var addForm = new AddForm('add-form', mediator);
+        addForm.init();
         //
         //
         //

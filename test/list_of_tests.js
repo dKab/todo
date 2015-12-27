@@ -6,6 +6,7 @@ define(function () {
     return [
         'test/tests/todos',
         'test/tests/storage',
-        'test/tests/mediator'
+        'test/tests/mediator',
+        'test/tests/add-form'
     ];
 });
