@@ -7,6 +7,7 @@ define(function () {
         'test/tests/todos',
         'test/tests/storage',
         'test/tests/mediator',
-        'test/tests/add-form'
+        'test/tests/add-form',
+        'test/tests/search'
     ];
 });

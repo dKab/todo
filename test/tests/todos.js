@@ -36,6 +36,8 @@ define(
                 document.body.removeChild(document.getElementById('todos'));
             });
 
+            //TODO test render method
+
             test('constructor assigns element with specified id to the object\'s property', function() {
                 assert.isDefined(todos.elem);
                 assert.equal(todos.elem.id, 'todos');
@@ -45,11 +47,13 @@ define(
             test('init method', function() {
                 assert.isFalse(subSpy.called);
                 todos.init();
-                assert(subSpy.calledTwice);
+                assert(subSpy.calledThrice);
                 assert(subSpy.calledWith('todosAvailable'));
                 assert.isFunction(subSpy.args[0][1].fn);
                 assert(subSpy.calledWith('newTodo'));
                 assert.isFunction(subSpy.args[1][1].fn);
+                assert(subSpy.calledWith('filterUpdate'));
+                assert.isFunction(subSpy.args[2][1].fn);
             });
 
             test('onCheck method changes model\'s checked property accordingly to the checkbox', function() {
@@ -195,12 +199,35 @@ define(
                     target: span
                 };
                 var newText = 'new awesome text';
-                span.value = newText;
+                span.textContent = newText;
                 todos.finishEditingText(event);
                 assert.equal(model.text, newText);
                 assert(pubSpy.calledOnce);
                 assert(pubSpy.calledWith('todosUpdate', _todos));
+
+                span.textContent = '     ';
+                todos.finishEditingText(event);
+                assert.equal(model.text, newText); //model value haven't changed
+                assert.equal(span.textContent, newText);
+                assert(pubSpy.calledOnce);
+                span.textContent = '';
+                todos.finishEditingText(event);
+                assert.equal(model.text, newText); //still haven't changed
+                assert.equal(span.textContent, newText);
+                assert(pubSpy.calledOnce);
+                span.textContent = '123';
+                todos.finishEditingText(event);
+                assert.equal(model.text, '123'); //changed now
+                assert.equal(span.textContent, '123');
+                assert(pubSpy.calledTwice);
             });
 
+            test('onFilterUpdate', function() {
+                var _conditions = window.testing._conditions;
+                todos.render = sinon.spy();
+                todos.onFilterUpdate();
+                //TODO add assertions
+
+            });
         });
     });

@@ -21,8 +21,8 @@ require.config({
 });
 
 require(
-    ['mediator', 'storage', 'todos', 'add-form'],
-    function (mediator, LongStorage, Todos, AddForm) {
+    ['mediator', 'storage', 'todos', 'add-form', 'search'],
+    function (mediator, LongStorage, Todos, AddForm, Search) {
         var todos = new Todos('todos', mediator);
         todos.init();
         var storage = new LongStorage(mediator, window.localStorage);
@@ -33,6 +33,10 @@ require(
         todos.render();
         var addForm = new AddForm('add-form', mediator);
         addForm.init();
+
+        var search = new Search('search-form', mediator);
+        search.init();
+
     }
     //TODO add load screen on xhr
 );

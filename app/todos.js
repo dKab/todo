@@ -3,18 +3,28 @@
  */
 'use strict';
 define(
-    ['material-design-lite', 'util', 'lodash/array/findIndex', 'lodash/collection/find', 'lodash/string/template'],
-    function (componentHandler, util, findIndex, find, compile) { //TODO remove material design from dependencies
-        var todos = [];
+    [
+        'util',
+        'lodash/array/findIndex',
+        'lodash/collection/find',
+        'lodash/string/template',
+        'lodash/string/trim'
+    ],
+    function (util, findIndex, find, compile, trim) {
+        var todos = [],
+            conditions = {};
+
         /*test-code*/
         window.testing = window.testing || {};
         window.testing._todos = todos;
+        window.testing._conditions = conditions;
         /*end-test-code*/
 
         function Todos(id, mediator) {
             this.elem = document.getElementById(id);
             this.mediator = mediator;
         }
+
 
 
         function updateCounter(which, how) {
@@ -25,15 +35,23 @@ define(
 
         Todos.prototype.finishEditingText = function(e) {
             if (~e.target.className.indexOf('todo__text-js')) {
+                if (e.type == 'keydown' && e.keyCode != 13) {
+                    return;
+                }
                 e.target.contentEditabe = false;
                 var id = e.target.closest('li').id.substr(5);
                 var modelBeingEdited = find(todos, {id: +id});
                 if (!modelBeingEdited) {
                     throw new Error('could\'t find corresponding model');
                 }
-                modelBeingEdited.text = e.target.value;
-                this.mediator.publish('todosUpdate', todos);
-                if (e.type == 'keydown' && e.keyCode == 13) {
+                var newText = trim(e.target.textContent);
+                if (newText) {
+                    this.mediator.publish('todosUpdate', todos);
+                    modelBeingEdited.text = newText
+                }
+                e.target.textContent = modelBeingEdited.text;
+
+                if (e.type == 'keydown') {
                     e.preventDefault();
                     e.target.blur();
                     return false;
@@ -48,7 +66,22 @@ define(
             this.elem.addEventListener('blur', this.finishEditingText.bind(this), true);
             this.mediator.subscribe('todosAvailable', {context: this, fn: this.onTodosAvailable});
             this.mediator.subscribe('newTodo', {context: this, fn: this.addTodo});
+            this.mediator.subscribe('filterUpdate', {context: this, fn: this.onFilterUpdate});
         };
+
+        
+        Todos.prototype.onFilterUpdate = function(filter) {
+            if (filter instanceof Object) {
+               if (filter.text === '') {
+                   delete conditions.text;
+               } else {
+                   conditions.text = filter.text;
+               }
+               conditions.checked = !!filter.checked;
+               this.render();
+            }
+        };
+
 
         Todos.prototype.onClick = function(event) {
             var target = event.target;
@@ -58,7 +91,6 @@ define(
             } else if (~target.className.indexOf('todo__text-js')) {
                 target.contentEditable = true;
                 target.focus();
-                console.log('editable');
             }
         };
 
@@ -74,7 +106,7 @@ define(
                     var model = todos.splice(index, 1).pop();
                     model.checked = target.checked;
                     if (model.checked) {
-                        li.clasName += ' todo__item--checked';
+                        li.className = ' todo__item--checked';
                     }
                     todos.push(model);
                     this.mediator.publish('todosUpdate', todos);
@@ -111,7 +143,30 @@ define(
             util.loadTemplate('todos.html')
                 .then(function(xhr, templateString) {
                     var compiled = compile(templateString, {variable: 'data'});
-                    self.elem.innerHTML = compiled({ todos: todos});
+                    var filtered;
+                    if (conditions.text) {
+                        try {
+                            filtered = todos.filter(function(model) {
+                                var passes = true;
+                                if (conditions.checked === false) {
+                                    passes = !model.checked;
+                                }
+                                if (!passes) {
+                                    return false;
+                                }
+                                if (conditions.text) {
+                                    passes = model.text.indexOf(conditions.text) !== -1;
+                                }
+                                return passes;
+                            });
+                        } catch(e) {
+                            console.error(e);
+                            alert('Error ocured!');
+                        }
+                    } else {
+                        filtered = todos;
+                    }
+                    self.elem.innerHTML = compiled({ todos: filtered});
                     if (callback) {
                         callback();
                     }

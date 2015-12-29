@@ -4,29 +4,30 @@
 // List of all test dependencies
 require.config({
     paths: {
-        "material-design-lite": "../bower_components/material-design-lite/material",
-        "mocha": "../bower_components/mocha/mocha",
-        "chai": "../bower_components/chai/chai",
-        "sinon": "../bower_components/sinon/lib/sinon",
+        'material-design-lite': '../bower_components/material-design-lite/material',
+        'mocha': '../bower_components/mocha/mocha',
+        'chai': '../bower_components/chai/chai',
+        'sinon': '../bower_components/sinon/lib/sinon',
         'es6-promise': '../bower_components/es6-promise/promise',
         'qwest': '../bower_components/qwest/qwest',
-        "mediator": "../app/mediator",
-        "storage" : "../app/storage",
-        "add-form": "../app/add-form",
-        "todos" : "../app/todos",
-        "util": "../app/util"
+        'mediator': '../app/mediator',
+        'storage' : '../app/storage',
+        'add-form': '../app/add-form',
+        'todos' : '../app/todos',
+        'util': '../app/util',
+        'search': '../app/search'
     },
     shim: {
-        "mocha": {
-            exports: "mocha"
+        'mocha': {
+            exports: 'mocha'
         },
-        "chai": {
-            exports: "chai"
+        'chai': {
+            exports: 'chai'
         },
-        "sinon": {
-            exports: "sinon"
+        'sinon': {
+            exports: 'sinon'
         },
-        "material-design-lite": {
+        'material-design-lite': {
             exports: 'componentHandler'
         },
         qwest: {
