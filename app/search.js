@@ -31,6 +31,7 @@ define(
         Search.prototype.init = function() {
             this.elem.addEventListener('keyup', this.updatePredicate.bind(this));
             this.elem.addEventListener('change', this.togglechecked.bind(this));
+            this.elem.querySelector('button').addEventListener('click', this.clear.bind(this));
         };
 
         Search.prototype.clear = function() {

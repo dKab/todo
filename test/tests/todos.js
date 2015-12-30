@@ -36,7 +36,6 @@ define(
                 document.body.removeChild(document.getElementById('todos'));
             });
 
-            //TODO test render method
 
             test('constructor assigns element with specified id to the object\'s property', function() {
                 assert.isDefined(todos.elem);
@@ -226,8 +225,14 @@ define(
                 var _conditions = window.testing._conditions;
                 todos.render = sinon.spy();
                 todos.onFilterUpdate();
-                //TODO add assertions
-
+                assert(!todos.render.called);
+                todos.onFilterUpdate({text: 'fdgds'});
+                assert(todos.render.called);
+                assert.isFalse(_conditions.checked);
+                assert.equal(_conditions.text, 'fdgds');
+                todos.onFilterUpdate({text: '', checked: true});
+                assert.isUndefined(_conditions.text);
+                assert.isTrue(_conditions.checked);
             });
         });
     });

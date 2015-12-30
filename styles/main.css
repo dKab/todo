@@ -18,5 +18,17 @@
     text-decoration: line-through;
     color: gray;
 }
-
-/* TODO hide delete icons, vertical align label text */
+.todo__item {
+    margin: 10px 0;
+}
+.todo__item .todo__delete-btn-js {
+    display: none;
+    font-size: 17px;
+    cursor: pointer;
+}
+.todo__item:hover .todo__delete-btn-js {
+    display: inline;
+}
+.todo__item input[type=checkbox] {
+vertical-align: middle;
+}
