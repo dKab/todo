@@ -21,8 +21,8 @@ require.config({
 });
 
 require(
-    ['mediator', 'storage', 'todos', 'add-form', 'search'],
-    function (mediator, LongStorage, Todos, AddForm, Search) {
+    ['material-design-lite', 'mediator', 'storage', 'todos', 'add-form', 'search'],
+    function (componentHandler, mediator, LongStorage, Todos, AddForm, Search) {
         var todos = new Todos('todos', mediator);
         todos.init();
         var storage = new LongStorage(mediator, window.localStorage);

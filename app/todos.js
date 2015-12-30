@@ -106,7 +106,7 @@ define(
                     var model = todos.splice(index, 1).pop();
                     model.checked = target.checked;
                     if (model.checked) {
-                        li.className = ' todo__item--checked';
+                        li.className += ' todo__item--checked';
                     }
                     todos.push(model);
                     this.mediator.publish('todosUpdate', todos);
