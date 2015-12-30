@@ -1,9 +1,6 @@
 'use strict';
 require.config({
     shim: {
-        "material-design-lite": {
-            exports: 'componentHandler'
-        },
         qwest: {
             exports: 'qwest'
         }
@@ -12,7 +9,6 @@ require.config({
         { 'name': 'lodash', 'location': '../bower_components/lodash' }
     ],
     paths: {
-        "material-design-lite": "../bower_components/material-design-lite/material",
         requirejs: "../bower_components/requirejs/require",
         'es6-promise': '../bower_components/es6-promise/promise',
         'qwest': '../bower_components/qwest/qwest'
@@ -21,8 +17,8 @@ require.config({
 });
 
 require(
-    ['material-design-lite', 'mediator', 'storage', 'todos', 'add-form', 'search'],
-    function (componentHandler, mediator, LongStorage, Todos, AddForm, Search) {
+    ['mediator', 'storage', 'todos', 'add-form', 'search'],
+    function (mediator, LongStorage, Todos, AddForm, Search) {
         var todos = new Todos('todos', mediator);
         todos.init();
         var storage = new LongStorage(mediator, window.localStorage);
@@ -38,6 +34,5 @@ require(
         search.init();
 
     }
-    //TODO add load screen on xhr
 );
 

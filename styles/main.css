@@ -17,6 +17,7 @@
 .todo__item--checked .todo__text {
     text-decoration: line-through;
     color: gray;
+
 }
 .todo__item {
     margin: 10px 0;
@@ -29,6 +30,10 @@
 .todo__item:hover .todo__delete-btn-js {
     display: inline;
 }
-.todo__item input[type=checkbox] {
-vertical-align: middle;
+.todo__item * {
+    vertical-align: middle;
+}
+.todo__item .todo__text{
+    display: inline-block;
+    margin: 5px 0;
 }

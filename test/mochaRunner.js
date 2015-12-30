@@ -4,7 +4,6 @@
 // List of all test dependencies
 require.config({
     paths: {
-        'material-design-lite': '../bower_components/material-design-lite/material',
         'mocha': '../bower_components/mocha/mocha',
         'chai': '../bower_components/chai/chai',
         'sinon': '../bower_components/sinon/lib/sinon',

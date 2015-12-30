@@ -10,44 +10,37 @@
     <!-- process:js scripts/built.min.js -->
     <script src="bower_components/requirejs/require.js" data-main="app/app"></script>
     <!-- /process -->
-    <!-- build:css styles/vendor.min.css -->
-    <link rel="stylesheet" href="bower_components/material-design-lite/material.css">
-    <!-- endbuild -->
     <!-- build:css styles/main.min.css -->
     <link rel="stylesheet" href="styles/main.css">
     <!-- endbuild -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 </head>
 <body>
-<div class="mdl-layout mdl-js-layout">
     <main>
         <div id="todos-app">
             <div id="add-form">
-                <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="text" id="new">
-                    <label class="mdl-textfield__label" for="new">Что сделать</label>
+                <div>
+                    <input class="mdl-textfield__input" placeholder="Что сделать" type="text" id="new">
+                    <button type="button" class="add-form__btn-js">
+                        Добавить
+                    </button>
                 </div>
-                <button type="button" class="mdl-button mdl-js-button add-form__btn-js mdl-button--raised mdl-button--colored">
-                    Добавить
-                </button>
             </div>
             <div id="todos">
+                <div>Loading...</div>
             </div>
             <div id="search-form">
-                <div class="mdl-textfield mdl-js-textfield">
-                    <input class="mdl-textfield__input" type="text" id="search">
-                    <label class="mdl-textfield__label" for="search"></label>
+                <div>
+                    <input type="text" id="search">
+                    <button type="button">
+                        &times;
+                    </button>
                 </div>
-                <button type="button" class="mdl-button mdl-js-button">
-                    <i class="material-icons">clear</i>
-                </button>
-                <label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for="search-in-active">
-                    <input type="checkbox" id="search-in-active" class="mdl-switch__input">
-                    <span class="mdl-switch__label">Искать в активных</span>
+                <label for="search-in-active">
+                    <input type="checkbox" placeholder="Искать" id="search-in-active">
+                    <span>Искать в активных</span>
                 </label>
             </div>
         </div>
     </main>
-</div>
 </body>
 </html>

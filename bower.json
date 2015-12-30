@@ -16,7 +16,6 @@
     "tests"
   ],
   "dependencies": {
-    "material-design-lite": "~1.0.6",
     "requirejs": "~2.1.22",
     "es6-promise": "~3.0.2",
     "lodash": "3.10.1-amd",
