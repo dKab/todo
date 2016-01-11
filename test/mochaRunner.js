@@ -8,7 +8,7 @@ require.config({
         'chai': '../bower_components/chai/chai',
         'sinon': '../bower_components/sinon/lib/sinon',
         'es6-promise': '../bower_components/es6-promise/promise',
-        'qwest': '../bower_components/qwest/qwest',
+        'qwest': '../bower_components/qwest/qwest.min',
         'mediator': '../app/mediator',
         'storage' : '../app/storage',
         'add-form': '../app/add-form',
