@@ -4,6 +4,7 @@
 define(['sinon', 'add-form'], function(sinon, AddForm) {
     suite('AddForm module', function() {
 
+        var containerId = 'todos-app';
         setup(function() {
             var addFormContainer = document.createElement('div');
             addFormContainer.id = 'add-form';
@@ -11,9 +12,14 @@ define(['sinon', 'add-form'], function(sinon, AddForm) {
             input.type = 'text';
             addFormContainer.appendChild(input);
             var appBlock = document.createElement('div');
-            appBlock.id = 'todos-app';
+            appBlock.id = containerId;
             appBlock.appendChild(addFormContainer);
             document.body.appendChild(appBlock);
+        });
+
+
+        teardown(function() {
+            document.body.removeChild(document.getElementById(containerId));
         });
 
         test('add method', function() {
