@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+  - "node"
+before_install:
+  - npm install -g grunt-cli
+  - npm install -g bower
+install:
+  - npm install
+  - bower install
+before_script: http-server
+script: grunt mocha
+after_success: "./travis.sh"
+env:
+  global:
+  - GH_REF: github.com/dKab/todo.git
+  - secure: "JyS9BAAu4Y8oR7BZJXAOo+L94U79tvHFiCbuMSJj0mrqaoZPAXX6arj3ZdNT4q0ELqBK2dktctumyX30tVUdMFzz4MBs6Ln+CL9X0skkj5p05K3Qk88NcsWyx0F6flYgv0u5fZIE2tzGnn4H6QD+J33Xyid4CFXUlRs+fDFAoDigpcvnQRp6sdUtHgAFqwm/oImi2AorT1KcK62+cWuzLsHSrsO+nqek9FLnA5WWKZ+P0bJ7ba4fWQ/Cfcoik+Crh33KmUeHLVgNlPzTmEnitWeGjOjgl69JnfN9LqbvRKEm+VH1DykI75Anl/wHcL4rFi4Gy6mw76GyZNxGouQEDGtKXW/207vqAcuiw2+ny2nPZsAKtYy6HwU21TRDPULHs48WrMVQZT/f2PCC0jjvZ+kFGSAnrS0xaY6mdODuutBQ4BHLpvjeQOVO++nGbJeaYCPQCITbxs0IPkgi6rmMfU4BKl7sgEq4kOzjWmY5209jBydYszC7bt//KqYfpZTMikhwFX/meejTRssZXeHVpR5m+D/KL42+t1sYUTCdND9I5YOnjumwT3/NvecNs9yHDNWwpvr73Tg232X+/M2nmL0UIdM1vCigU4mZHNnCYYXV4QWIvak5+47qx6fa2FgGRnTL5lP/1msBizB4ezpjMTjVIfOxKTdrXccPbLUms/w="
