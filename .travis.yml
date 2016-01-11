@@ -8,9 +8,7 @@ before_install:
 install:
   - npm install
   - bower install
-before_script:
-  - http-server
-  - sleep 3
+before_script: "./start-server.sh"
 script: grunt mocha
 after_success: "./travis.sh"
 env:
