@@ -11,7 +11,7 @@ require.config({
     paths: {
         requirejs: "../bower_components/requirejs/require",
         'es6-promise': '../bower_components/es6-promise/promise',
-        'qwest': '../bower_components/qwest/qwest'
+        'qwest': '../bower_components/qwest/qwest.min'
     },
     baseUrl: 'app/'
 });
