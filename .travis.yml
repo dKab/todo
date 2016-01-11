@@ -10,7 +10,7 @@ install:
   - bower install
 before_script: "./start-server.sh"
 script: grunt mocha
-after_success: "./travis.sh"
+after_success: "./build-and-deploy.sh"
 env:
   global:
   - GH_REF: github.com/dKab/todo.git
