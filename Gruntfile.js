@@ -74,7 +74,8 @@ module.exports = function (grunt) {
         copy: {
             dist: { // in preparation for usemin
                 files: [
-                    {src: 'index.html', dest: 'dist/index.temp.html'}
+                    {src: 'index.html', dest: 'dist/index.temp.html'},
+                    {src: ['templates/*'], dest: 'dist/', expand: true }
                 ]
             }
         },
