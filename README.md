@@ -1,4 +1,5 @@
-##Prerequirements
+[![Build Status](https://travis-ci.org/dKab/todo.svg?branch=master)](https://travis-ci.org/dKab/todo)
+##Dependencies
 You should have nodejs module **http-server** installed globally. You can install it with `npm install http-server -g`
 Also you need **grunt-cli** to be installed globally on your machine.
 After clonning the repository, install all dependencies with `npm install` and `bower install`.
