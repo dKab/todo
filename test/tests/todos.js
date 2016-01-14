@@ -143,13 +143,13 @@ define(
                 assert.isFalse(_todos.some(function(item) { return item.id == modelId; })); //model is no longer there
             });
 
-            test('publishes to todosUpdate channel after removing item', function() {
+            test('remove method publishes to todosUpdate channel after removing item', function() {
                 assert.isFalse(pubSpy.called);
                 todos.remove(_todos[0].id);
                 assert.isTrue(pubSpy.calledWith('todosUpdate', _todos));
             });
 
-            test('updates counters block', function() {
+            test('remove method updates counters block', function() {
                 var activeCountElem = document.getElementById('count__active'),
                     archiveCountElem = document.getElementById('count__archive');
                 activeCountElem.innerHTML = '1';

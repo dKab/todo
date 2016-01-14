@@ -21,10 +21,7 @@ module.exports = function (grunt) {
                 }
             },
             server: {
-                command: 'http-server &',
-                options: {
-                    stdout: false
-                }
+                command: 'http-server -c-1 > server-log',
             }
         },
         requirejs: {
@@ -68,7 +65,8 @@ module.exports = function (grunt) {
                 'dist/index.temp.html', 
                 'dist/index.raw.html', 
                 'dist/polyfill.min.js' ,
-                'dist/scripts/app-built.min.js'
+                'dist/scripts/app-built.min.js',
+                'server-log'
             ]
         },
         useminPrepare: {

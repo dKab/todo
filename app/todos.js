@@ -112,6 +112,7 @@ define(
                     updateCounter('active', -1);
                 }
             }
+
         };
 
         Todos.prototype.add = function (todo) {
@@ -119,13 +120,17 @@ define(
         };
 
         Todos.prototype.remove = function(id) {
-            var index = findIndex(todos, {id: id});
-            var model = todos.splice(index, 1).pop();
-            var li = document.getElementById('todo_' + id);
-            li.parentNode.removeChild(li);
-            var countToUpdate = model.checked ? 'archive' : 'active';
-            updateCounter(countToUpdate, -1);
-            this.mediator.publish('todosUpdate', todos);
+            var index = findIndex(todos, {id: +id});
+            if (~index) {
+                var model = todos.splice(index, 1).pop();
+                var li = document.getElementById('todo_' + id);
+                li.parentNode.removeChild(li);
+                var countToUpdate = model.checked ? 'archive' : 'active';
+                updateCounter(countToUpdate, -1);
+                this.mediator.publish('todosUpdate', todos);
+            } else {
+                throw new Error('Model with such id has not found');
+            }
         };
 
         Todos.prototype.onTodosAvailable = function(array) {
