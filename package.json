@@ -11,12 +11,15 @@
     "grunt-contrib-uglify": "^0.11.0",
     "grunt-filerev": "^2.3.1",
     "grunt-processhtml": "^0.3.8",
-    "grunt-shell": "^1.1.1",
+    "grunt-shell": "~1.1.2",
     "grunt-strip-code": "^0.1.2",
     "grunt-usemin": "^3.1.1",
     "mocha-phantomjs": "^3.6.0",
     "phantomjs": "1.9.7-15",
     "requirejs": "^2.1.8",
-    "grunt-contrib-htmlmin": "~0.6.0"
-  }
+    "grunt-contrib-htmlmin": "~0.6.0",
+    "grunt-contrib-watch": "~0.6.1",
+    "grunt-concurrent": "~2.1.0"
+  },
+  "dependencies": {}
 }

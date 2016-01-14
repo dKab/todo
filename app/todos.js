@@ -25,8 +25,6 @@ define(
             this.mediator = mediator;
         }
 
-
-
         function updateCounter(which, how) {
             var blockToUpdate = document.getElementById('count__' + which);
             var currentCount = +blockToUpdate.innerHTML;
@@ -69,7 +67,6 @@ define(
             this.mediator.subscribe('filterUpdate', {context: this, fn: this.onFilterUpdate});
         };
 
-        
         Todos.prototype.onFilterUpdate = function(filter) {
             if (filter instanceof Object) {
                if (filter.text === '') {
@@ -82,7 +79,6 @@ define(
             }
         };
 
-
         Todos.prototype.onClick = function(event) {
             var target = event.target;
             if (~target.className.indexOf('todo__delete-btn-js')) {
@@ -93,7 +89,6 @@ define(
                 target.focus();
             }
         };
-
 
         Todos.prototype.onCheck = function(e) {
             var target = e.target;

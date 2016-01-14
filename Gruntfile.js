@@ -19,6 +19,12 @@ module.exports = function (grunt) {
                     failOnError: true,
                     stdout: true
                 }
+            },
+            server: {
+                command: 'http-server &',
+                options: {
+                    stdout: false
+                }
             }
         },
         requirejs: {
@@ -105,6 +111,23 @@ module.exports = function (grunt) {
                     'dist/index.html': 'dist/index.raw.html'
                 }
             }
+        },
+        watch: {
+            scripts: {
+                files: '**/*.js',
+                tasks: ['mocha'],
+                options: {
+                    interrupt: true
+                }
+            }
+        },
+        concurrent: {
+            target: {
+                tasks: ['shell:server', 'watch'],
+                options: {
+                    logConcurrentOutput: true
+                }
+            }
         }
     });
 
@@ -114,6 +137,8 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-usemin');
+    grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-concurrent');
 
     // this task is used to copy index.html into dist/ folder so we can perform usemin on it
     // (usemin replaces references to scripts and links in the file it's operating on - it doesn't create new file)
@@ -157,5 +182,9 @@ module.exports = function (grunt) {
         'processhtml', // replacing requirejs script tag with optimized
         'htmlmin', //minifying html
         'clean:temp' //remove temporary files
+    ]);
+
+    grunt.registerTask('dev', [
+        'concurrent:target'
     ]);
 };

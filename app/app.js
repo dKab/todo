@@ -32,7 +32,6 @@ require(
 
         var search = new Search('search-form', mediator);
         search.init();
-
     }
 );
 
