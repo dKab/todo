@@ -100,16 +100,9 @@ define(
                 if (~index) {
                     var model = todos.splice(index, 1).pop();
                     model.checked = target.checked;
-                    if (model.checked) {
-                        li.className += ' todo__item--checked';
-                    }
                     todos.push(model);
                     this.mediator.publish('todosUpdate', todos);
-                    var ul = this.elem.querySelector('ul');
-                    ul.appendChild(li);
-                    target.disabled = true;
-                    updateCounter('archive', +1);
-                    updateCounter('active', -1);
+                    this.render();
                 }
             }
 

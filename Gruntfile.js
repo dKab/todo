@@ -120,7 +120,7 @@ module.exports = function (grunt) {
             }
         },
         concurrent: {
-            target: {
+            development: {
                 tasks: ['shell:server', 'watch'],
                 options: {
                     logConcurrentOutput: true
@@ -183,6 +183,6 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('dev', [
-        'concurrent:target'
+        'concurrent:development'
     ]);
 };

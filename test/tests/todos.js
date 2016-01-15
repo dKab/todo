@@ -68,17 +68,6 @@ define(
                 assert.isFalse(model.checked);
             });
 
-            test('oncheck method updates counters', function() {
-                var checkbox = todos.elem.querySelector('input[type=checkbox]:not(:checked)');
-
-                assert.equal(document.getElementById('count__active').innerHTML, 1);
-                assert.equal(document.getElementById('count__archive').innerHTML, 1);
-                checkbox.checked = true;
-                todos.onCheck({target: checkbox});
-                assert.equal(document.getElementById('count__active').innerHTML, 0);
-                assert.equal(document.getElementById('count__archive').innerHTML, 2);
-            });
-
             test('onCheck method publishes to todosUpdate channel', function() {
                 assert.isFalse(pubSpy.called);
                 var checkbox = todos.elem.querySelector('input[type=checkbox]');
@@ -91,18 +80,18 @@ define(
                     li = document.getElementById('todo_' + model.id),
                     checkbox = li.querySelector('input[type=checkbox]');
                 assert.notEqual(_todos[_todos.length-1], model, 'model isn\'t last item before we check it');
-                assert.notEqual(todos.elem.querySelector('ul').lastChild, li);
                 todos.onCheck({target: checkbox});
-                assert.strictEqual(todos.elem.querySelector('ul').lastChild, li);
                 assert.strictEqual(_todos[_todos.length-1], model, 'model is last item in the array after we check it');
             });
 
-            test('checkbox becomes disabled after it\'s been checked', function() {
-                var li = todos.elem.querySelector('li');
-                var checkbox = li.querySelector('input[type=checkbox]');
-                assert.isFalse(checkbox.disabled);
+            test('onCheck handler calls render method', function() {
+                var model = _todos[0],
+                    li = document.getElementById('todo_' + model.id),
+                    checkbox = li.querySelector('input[type=checkbox]'),
+                    spy = sinon.spy();
+                todos.render = spy;
                 todos.onCheck({target: checkbox});
-                assert.isTrue(checkbox.disabled);
+                assert(spy.calledOnce);
             });
 
             test('adds item to internal todos array', function() {

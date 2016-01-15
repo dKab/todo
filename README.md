@@ -5,7 +5,7 @@ Also you need **grunt-cli** to be installed globally on your machine.
 After clonning the repository, install all dependencies with `npm install` and `bower install`.
 
 #Development
-Run `grun dev` to start http-server listening 8080 port and setup watcher for js source files.
+Run `grunt dev` to start http-server listening 8080 port and setup watcher for js source files.
 It will run unit tests on each file save.
 After that you can go to http://localhost:8080 in your browser to see application in action.
 
