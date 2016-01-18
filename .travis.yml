@@ -8,8 +8,7 @@ before_install:
 install:
   - npm install
   - bower install
-before_script: "./start-server.sh"
-script: grunt mocha
+script: grunt test
 after_success: "./build-and-deploy.sh"
 env:
   global:

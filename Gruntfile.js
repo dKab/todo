@@ -3,25 +3,9 @@
  */
 module.exports = function (grunt) {
     grunt.initConfig({
-        mocha: {
-            reporter: 'dot',
-            timeout: '90000', // in ms
-            url: 'http://localhost:8080/test'
-        },
-
         shell: {
-            mocha: {
-                command: 'node ./node_modules/mocha-phantomjs/bin/mocha-phantomjs ' +
-                '-R <%= mocha.reporter %> ' +
-                '-t <%= mocha.timeout %> ' +
-                '<%= mocha.url %>',
-                options: {
-                    failOnError: true,
-                    stdout: true
-                }
-            },
             server: {
-                command: 'http-server -c-1 > server-log',
+                command: 'http-server -c-1' // -c-1 disables caching
             }
         },
         requirejs: {
@@ -39,7 +23,7 @@ module.exports = function (grunt) {
                 }
             }
         },
-        strip_code: {
+        strip_code: { //this is for stripping test-code from production script file
             options: {
                 start_comment: 'test-code',
                 end_comment: 'end-test-code'
@@ -66,7 +50,6 @@ module.exports = function (grunt) {
                 'dist/index.raw.html', 
                 'dist/polyfill.min.js' ,
                 'dist/scripts/app-built.min.js',
-                'server-log'
             ]
         },
         useminPrepare: {
@@ -110,21 +93,13 @@ module.exports = function (grunt) {
                 }
             }
         },
-        watch: {
-            scripts: {
-                files: '**/*.js',
-                tasks: ['mocha'],
-                options: {
-                    interrupt: true
-                }
-            }
-        },
-        concurrent: {
-            development: {
-                tasks: ['shell:server', 'watch'],
-                options: {
-                    logConcurrentOutput: true
-                }
+        karma: {
+            watch: {
+                configFile: 'karma.conf.js'
+            },
+            CI: {
+                configFile: 'karma.conf.js',
+                singleRun: true
             }
         }
     });
@@ -135,8 +110,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-usemin');
-    grunt.loadNpmTasks('grunt-contrib-watch');
-    grunt.loadNpmTasks('grunt-concurrent');
+    grunt.loadNpmTasks('grunt-karma');
 
     // this task is used to copy index.html into dist/ folder so we can perform usemin on it
     // (usemin replaces references to scripts and links in the file it's operating on - it doesn't create new file)
@@ -150,21 +124,9 @@ module.exports = function (grunt) {
 
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
 
-    grunt.registerTask('mocha', function () {
-        if (grunt.option('reporter')) {
-            grunt.config('mocha.reporter', grunt.option('reporter'));
-        }
-
-        if (grunt.option('timeout')) {
-            grunt.config('mocha.timeout', grunt.option('timeout'));
-        }
-
-        if (grunt.option('url')) {
-            grunt.config('mocha.url', grunt.option('url'));
-        }
-
-        grunt.task.run('shell:mocha');
-    });
+    grunt.registerTask('server', [
+       'shell:server'
+    ]);
 
     grunt.registerTask('build', [
         'clean:dist', // removing everything from dist folder
@@ -183,6 +145,10 @@ module.exports = function (grunt) {
     ]);
 
     grunt.registerTask('dev', [
-        'concurrent:development'
+        'karma:watch'
+    ]);
+
+    grunt.registerTask('test', [
+        'karma:CI'
     ]);
 };
