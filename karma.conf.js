@@ -8,6 +8,7 @@ module.exports = function (config) {
 
         files: [
             'bower_components/Element.closest/closest.js',
+            'node_modules/phantomjs-polyfill/bind-polyfill.js',
             'bower_components/requirejs/require.js',
             'node_modules/karma-requirejs/lib/adapter.js',
             {pattern: 'bower_components/**/*.js', included: false},
@@ -33,7 +34,7 @@ module.exports = function (config) {
 
         port: 9876,
         colors: true,
-        autoWatch: false,
+        autoWatch: true,
         singleRun: false,
 
         // level of logging
