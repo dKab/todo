@@ -2,12 +2,13 @@
  * Created by dmitriy on 28.12.15.
  */
 define(
-    ['search', 'sinon'],
-    function (Search, sinon) {
+    ['search', 'sinon', 'chai'],
+    function (Search, sinon, chai) {
     suite('search module', function() {
 
         var containerId = 'search-form',
             _filteringPredicate = window.testing._filterPredicate,
+            assert = chai.assert,
             searchInput;
 
         setup(function() {

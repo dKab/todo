@@ -2,12 +2,13 @@
  * Created by dmitriy on 14.12.15.
  */
 define(
-    ['sinon', 'todos', 'lodash/collection/find'],
-    function (sinon, Todos, find) {
+    ['sinon', 'todos', 'lodash/collection/find', 'chai'],
+    function (sinon, Todos, find, chai) {
 
         suite('todos module', function() {
 
-            var _todos, // private model collection
+            var assert = chai.assert,
+                _todos, // private model collection
                 pubSpy, subSpy,
                 todos; //the instance of our Todos "class"
 

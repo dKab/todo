@@ -2,10 +2,11 @@
  * Created by dmitriy on 27.12.15.
  */
 define(
-    ['sinon', 'mediator'],
-    function (sinon, mediator) {
+    ['sinon', 'mediator', 'chai'],
+    function (sinon, mediator, chai) {
 
-        var _mediatorChannels = window.testing._mediatorChannels;
+        var _mediatorChannels = window.testing._mediatorChannels,
+            assert = chai.assert;
 
         setup(function() {
             var _mediatorChannels = {};

@@ -1,10 +1,11 @@
 /**
  * Created by dmitriy on 27.12.15.
  */
-define(['sinon', 'add-form'], function(sinon, AddForm) {
+define(['sinon', 'add-form', 'chai'], function(sinon, AddForm, chai) {
     suite('AddForm module', function() {
 
-        var containerId = 'todos-app';
+        var containerId = 'todos-app',
+            assert = chai.assert;
         setup(function() {
             var addFormContainer = document.createElement('div');
             addFormContainer.id = 'add-form';

@@ -2,14 +2,15 @@
  * Created by dmitriy on 27.12.15.
  */
 define(
-    ['sinon', 'storage'],
-    function (sinon, LongStorage) {
+    ['sinon', 'storage', 'chai'],
+    function (sinon, LongStorage, chai) {
 
         suite('Storage module', function () {
 
             var fakeMediator = {
                 publish: function() {}
-            };
+            },
+                assert = chai.assert;
 
             test('constructor', function() {
                 var storage = new LongStorage(fakeMediator, {});
