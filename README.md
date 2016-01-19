@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/dKab/todo.svg?branch=master)](https://travis-ci.org/dKab/todo)
+[![Coverage Status](https://coveralls.io/repos/github/dKab/todo/badge.svg?branch=master)](https://coveralls.io/github/dKab/todo?branch=master)
 
 Simple todo app written in Javascript just for the sake of learning without any heavy framework.
 
