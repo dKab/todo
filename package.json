@@ -1,5 +1,6 @@
 {
   "name": "Todo",
+  "repository": "https://github.com/dKab/todo",
   "author": "Dmitry Kabardinov",
   "version": "0.0.1",
   "scripts": {
