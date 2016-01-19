@@ -4,11 +4,12 @@
   "author": "Dmitry Kabardinov",
   "version": "0.0.1",
   "scripts": {
-      "start": "karma start & http-server -c-1 > /dev/null",
-      "test": "karma start --singleRun",
-      "postinstall": "bower install",
-      "prebuild": "npm test",
-      "build": "grunt"
+    "start": "karma start & http-server -c-1 > /dev/null",
+    "test": "karma start --singleRun",
+    "postinstall": "bower install",
+    "prebuild": "npm test",
+    "build": "grunt",
+    "coveralls": "./coveralls.sh"
   },
   "devDependencies": {
     "grunt": "^0.4.5",
@@ -34,7 +35,9 @@
     "phantomjs": "^1.9.19",
     "requirejs": "^2.1.8",
     "phantomjs-polyfill": "0.0.1",
-    "http-server": "~0.8.5"
+    "http-server": "~0.8.5",
+    "karma-coverage": "~0.5.3",
+    "coveralls": "~2.11.6"
   },
   "dependencies": {}
 }

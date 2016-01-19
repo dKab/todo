@@ -1,0 +1,1 @@
+find ./coverage/ -name *lcov* -exec cat {} \; | coveralls

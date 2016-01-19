@@ -30,7 +30,16 @@ module.exports = function (config) {
                 ui: 'tdd'
             }
         },
-        reporters: ['progress'],
+        reporters: ['progress', 'coverage'],
+
+        preprocessors: {
+            'app/!(app).js': 'coverage'
+        },
+        coverageReporter: {
+            type : 'lcov',
+            dir : 'coverage/',
+            file : 'lcov.info'
+        },
 
         port: 9876,
         colors: true,
