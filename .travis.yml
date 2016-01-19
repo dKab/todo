@@ -9,8 +9,8 @@ install:
   - npm install
   - bower install
 script: npm test
-after_success: "./build-and-deploy.sh",
-after_script: "npm run coveralls",
+after_success: "./build-and-deploy.sh"
+after_script: "npm run coveralls"
 env:
   global:
   - GH_REF: github.com/dKab/todo.git
