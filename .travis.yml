@@ -8,7 +8,7 @@ before_install:
 install:
   - npm install
   - bower install
-script: grunt test
+script: npm test
 after_success: "./build-and-deploy.sh"
 env:
   global:

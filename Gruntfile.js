@@ -3,11 +3,6 @@
  */
 module.exports = function (grunt) {
     grunt.initConfig({
-        shell: {
-            server: {
-                command: 'http-server -c-1' // -c-1 disables caching
-            }
-        },
         requirejs: {
             compile: {
                 options: {
@@ -49,7 +44,7 @@ module.exports = function (grunt) {
                 'dist/index.temp.html', 
                 'dist/index.raw.html', 
                 'dist/polyfill.min.js' ,
-                'dist/scripts/app-built.min.js',
+                'dist/scripts/app-built.min.js'
             ]
         },
         useminPrepare: {
@@ -92,25 +87,14 @@ module.exports = function (grunt) {
                     'dist/index.html': 'dist/index.raw.html'
                 }
             }
-        },
-        karma: {
-            watch: {
-                configFile: 'karma.conf.js'
-            },
-            CI: {
-                configFile: 'karma.conf.js',
-                singleRun: true
-            }
         }
     });
 
-    grunt.loadNpmTasks('grunt-shell');
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-strip-code');
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.loadNpmTasks('grunt-usemin');
-    grunt.loadNpmTasks('grunt-karma');
 
     // this task is used to copy index.html into dist/ folder so we can perform usemin on it
     // (usemin replaces references to scripts and links in the file it's operating on - it doesn't create new file)
@@ -123,10 +107,6 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-processhtml');
 
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
-
-    grunt.registerTask('server', [
-       'shell:server'
-    ]);
 
     grunt.registerTask('build', [
         'clean:dist', // removing everything from dist folder
@@ -144,11 +124,5 @@ module.exports = function (grunt) {
         'clean:temp' //remove temporary files
     ]);
 
-    grunt.registerTask('dev', [
-        'karma:watch'
-    ]);
-
-    grunt.registerTask('test', [
-        'karma:CI'
-    ]);
+    grunt.registerTask('default', ['build']);
 };
